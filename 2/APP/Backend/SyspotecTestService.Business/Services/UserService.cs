@@ -59,7 +59,17 @@ namespace SyspotecTestService.Business.Services
 
         public UserDto Delete(int userId)
         {
-            throw new NotImplementedException();
+            var user = _db.Usuarios.FirstOrDefault(user => user.Id == userId);
+
+            if (user == null)
+            {
+                throw new UserServiceException("Usuario inexistente");
+            }
+
+            _db.Usuarios.Remove(user);
+            _db.SaveChanges();
+
+            return _mapper.Map<UserDto>(user);
         }
 
         public IEnumerable<UserDto> GetUsers()

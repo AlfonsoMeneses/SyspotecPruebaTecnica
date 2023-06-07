@@ -100,5 +100,31 @@ namespace SyspotecTestService.API.Controllers
                 return StatusCode(500, res);
             }
         }
+
+        [HttpDelete("{userId}")]
+        public IActionResult Delete(int userId)
+        {
+            try
+            {
+                var res = _service.Delete(userId);
+                return Ok(res);
+            }
+            catch (UserServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
+        }
     }
 }
