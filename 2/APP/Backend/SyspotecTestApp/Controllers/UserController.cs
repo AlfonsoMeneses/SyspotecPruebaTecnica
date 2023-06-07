@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SyspotecTestService.API.Request;
 using SyspotecTestService.Contracts.Exceptions;
+using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
 
 namespace SyspotecTestService.API.Controllers
@@ -11,10 +13,40 @@ namespace SyspotecTestService.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _service;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService service)
+        private const string INTERNAL_ERROR_MESSAGE = "Error interno, intente mas tarde";
+
+        public UserController(IUserService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                var res = _service.GetUsers();
+                return Ok(res);
+            }
+            catch (UserServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
         }
 
         [HttpPost]
@@ -37,11 +69,36 @@ namespace SyspotecTestService.API.Controllers
             {
                 var res = new
                 {
-                    Error = "Internal error, try later"
+                    Error = INTERNAL_ERROR_MESSAGE
                 };
                 return StatusCode(500, res);
             }
+        }
 
+        [HttpPut("{userId}")]
+        public IActionResult Edit(int userId,[FromBody] UserToEditRequest editUser)
+        {
+            try
+            {
+                var res = _service.Edit(userId, _mapper.Map<UserDto>(editUser));
+                return Ok(res);
+            }
+            catch (UserServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
         }
     }
 }

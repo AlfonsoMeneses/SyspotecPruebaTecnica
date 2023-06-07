@@ -11,7 +11,7 @@ namespace SyspotecTestService.Contracts.Services
     {
         IEnumerable<UserDto> GetUsers();
         UserDto Create(string name, string document);
-        UserDto Update(int userId, UserDto user);
+        UserDto Edit(int userId, UserDto user);
         UserDto Delete(int userId);
     }
 }
