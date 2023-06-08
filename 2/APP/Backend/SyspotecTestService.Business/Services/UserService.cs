@@ -30,7 +30,7 @@ namespace SyspotecTestService.Business.Services
         /// <param name="document">Documento del usuario</param>
         /// <returns></returns>
         /// <exception cref="UserServiceException"></exception>
-        public UserDto Create(string name, string document)
+        public UsuarioDto Create(string name, string document)
         {
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(name))
             {
@@ -53,11 +53,11 @@ namespace SyspotecTestService.Business.Services
             _db.Usuarios.Add(newUser);
             _db.SaveChanges();
 
-            return _mapper.Map<UserDto>(newUser);
+            return _mapper.Map<UsuarioDto>(newUser);
 
         }
 
-        public UserDto Delete(int userId)
+        public UsuarioDto Delete(int userId)
         {
             var user = _db.Usuarios.FirstOrDefault(user => user.Id == userId);
 
@@ -69,25 +69,25 @@ namespace SyspotecTestService.Business.Services
             _db.Usuarios.Remove(user);
             _db.SaveChanges();
 
-            return _mapper.Map<UserDto>(user);
+            return _mapper.Map<UsuarioDto>(user);
         }
 
-        public IEnumerable<UserDto> GetUsers()
+        public IEnumerable<UsuarioDto> GetUsers()
         {
-            List<UserDto> lstUsers = new List<UserDto>();
+            List<UsuarioDto> lstUsers = new List<UsuarioDto>();
 
             var lst = _db.Usuarios;
 
             foreach ( var user in lst)
             {
-                var userDto = _mapper.Map<UserDto>(user);
+                var userDto = _mapper.Map<UsuarioDto>(user);
                 lstUsers.Add(userDto);
             }
 
             return lstUsers;
         }
 
-        public UserDto Edit(int userId, UserDto user)
+        public UsuarioDto Edit(int userId, UsuarioDto user)
         {
             var userToUpdate = _db.Usuarios.FirstOrDefault(user => user.Id == userId);
 
@@ -116,7 +116,7 @@ namespace SyspotecTestService.Business.Services
                 _db.SaveChanges();
             }
 
-            return _mapper.Map<UserDto>(userToUpdate);
+            return _mapper.Map<UsuarioDto>(userToUpdate);
         }
     }
 }

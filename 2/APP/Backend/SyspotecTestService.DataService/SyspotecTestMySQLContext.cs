@@ -51,16 +51,16 @@ public partial class SyspotecTestMySQLContext : DbContext
                 .HasColumnName("fecha");
             entity.Property(e => e.IdEstado).HasColumnName("idEstado");
 
-            entity.HasOne(d => d.IdEstadoNavigation).WithMany(p => p.AsignadosUsuarios)
+            entity.HasOne(d => d.Estado).WithMany(p => p.AsignadosUsuarios)
                 .HasForeignKey(d => d.IdEstado)
                 .HasConstraintName("Fk_AsignadosUsuarios_Estado_Id");
 
-            entity.HasOne(d => d.IdTicketNavigation).WithMany(p => p.AsignadosUsuarios)
+            entity.HasOne(d => d.Ticket).WithMany(p => p.AsignadosUsuarios)
                 .HasForeignKey(d => d.IdTicket)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_AsignadosUsuarios_Ticket_Id");
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.AsignadosUsuarios)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.AsignadosUsuarios)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_AsignadosUsuarios_Usuario_Id");

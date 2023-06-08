@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SyspotecTestService.API.Request;
+using SyspotecTestService.API.Request.User;
 using SyspotecTestService.Contracts.Exceptions;
 using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
@@ -80,7 +80,7 @@ namespace SyspotecTestService.API.Controllers
         {
             try
             {
-                var res = _service.Edit(userId, _mapper.Map<UserDto>(editUser));
+                var res = _service.Edit(userId, _mapper.Map<UsuarioDto>(editUser));
                 return Ok(res);
             }
             catch (UserServiceException uex)

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace SyspotecTestService.Business.Mappers
 {
-    public class UserMapProfile: Profile
+    public class EstadoTicketMapProfile: Profile
     {
-        public UserMapProfile()
+        public EstadoTicketMapProfile()
         {
-            CreateMap<UsuarioDto, Usuario>();
-            CreateMap<Usuario, UsuarioDto>();
+            CreateMap<EstadoTicket, EstadoTicketDto>();
+            CreateMap<EstadoTicketDto, EstadoTicket>();
         }
     }
 }

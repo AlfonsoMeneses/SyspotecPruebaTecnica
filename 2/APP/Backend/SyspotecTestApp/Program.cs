@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 
 //Agregando Los Servicios
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 
 //Agregando Conexi�n Con la DB
 

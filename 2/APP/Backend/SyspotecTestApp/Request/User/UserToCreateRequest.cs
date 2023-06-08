@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SyspotecTestService.API.Request
+namespace SyspotecTestService.API.Request.User
 {
     public class UserToCreateRequest
     {

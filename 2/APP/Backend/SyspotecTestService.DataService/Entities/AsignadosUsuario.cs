@@ -13,9 +13,9 @@ public partial class AsignadosUsuario
 
     public int? IdEstado { get; set; }
 
-    public virtual EstadoTicket? IdEstadoNavigation { get; set; }
+    public virtual EstadoTicket? Estado { get; set; }
 
-    public virtual Ticket IdTicketNavigation { get; set; } = null!;
+    public virtual Ticket Ticket { get; set; } = null!;
 
-    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
+    public virtual Usuario Usuario { get; set; } = null!;
 }

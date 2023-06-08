@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace SyspotecTestService.Contracts.Services
 {
-    public interface IUserService
+    public interface ITicketService
     {
-        IEnumerable<UsuarioDto> GetUsers();
-        UsuarioDto Create(string name, string document);
-        UsuarioDto Edit(int userId, UsuarioDto user);
-        UsuarioDto Delete(int userId);
+        TicketDto Create(TicketDto ticket);
+
+        TicketDto AssignTicket(int ticketId, int userId, DateTime assignDate);
     }
 }
