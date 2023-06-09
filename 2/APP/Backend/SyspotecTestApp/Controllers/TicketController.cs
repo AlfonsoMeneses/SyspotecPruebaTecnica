@@ -111,6 +111,33 @@ namespace SyspotecTestService.API.Controllers
             }
         }
 
+        [HttpPatch("{ticketId}/status/{statusId}")]
+        public IActionResult ChangeTicketStatus(int ticketId, int statusId)
+        {
+            try
+            {
+                var res = _service.ChangeTicketStatus(ticketId,statusId);
+
+                return Ok(res);
+            }
+            catch (TicketServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
+        }
+
         [HttpDelete("{ticketId}")]
         public IActionResult Delete(int ticketId)
         {

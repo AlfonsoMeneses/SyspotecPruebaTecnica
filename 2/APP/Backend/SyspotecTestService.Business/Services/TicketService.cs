@@ -73,6 +73,32 @@ namespace SyspotecTestService.Business.Services
             return ticketAssigned;
         }
 
+        public TicketDto ChangeTicketStatus(int ticketId, int statusId)
+        {
+            var ticket = GetTicket(ticketId);
+            var status = GetTicketStatusById(statusId);
+
+            var assign = _db.AsignadosUsuarios.Include("Usuario")
+                                               .Include("Estado")
+                                               .FirstOrDefault(a => a.IdTicket == ticketId);
+
+            if (assign == null)
+            {
+                throw new TicketServiceException("Ticket no se encuentra asignado a un usuario, por lo que no se puede cambiar el estado");
+            }
+
+            assign.Estado = status;
+
+            _db.AsignadosUsuarios.Update(assign);
+
+            _db.SaveChanges();
+
+            var ticketEdited = _mapper.Map<TicketDto>(ticket);
+            ticketEdited.AsignadoUsuario = _mapper.Map<AsignadosUsuarioDto>(assign);
+
+            return ticketEdited;
+        }
+
         public TicketDto Delete(int ticketId)
         {
             var ticket = GetTicket(ticketId);
@@ -98,12 +124,12 @@ namespace SyspotecTestService.Business.Services
             var lstTickets = (from tickets in _db.Tickets
                               join asignado in _db.AsignadosUsuarios on tickets.Id equals asignado.IdTicket into au
                               from a in au.DefaultIfEmpty()
-                              join user in _db.Usuarios on a.IdUsuario equals user.Id  into ua
+                              join user in _db.Usuarios on a.IdUsuario equals user.Id into ua
                               from u in ua.DefaultIfEmpty()
                               join status in _db.EstadoTickets on a.IdEstado equals status.Id into sa
                               from s in sa.DefaultIfEmpty()
                               where (filters.UserName == null || u.Nombre.Contains(filters.UserName)) &&
-                                    (filters.Status == null || s.Id == filters.Status.Value ) &&
+                                    (filters.Status == null || s.Id == filters.Status.Value) &&
                                     (filters.Number == null || tickets.Numero == filters.Number) &&
                                     (filters.Priority == null || tickets.Prioridad!.Equals(filters.Priority)) &&
                                     (filters.Description == null || tickets.Descripcion!.Contains(filters.Description)) &&
@@ -165,7 +191,7 @@ namespace SyspotecTestService.Business.Services
 
         private Ticket GetTicket(int id)
         {
-            var ticket = _db.Tickets.FirstOrDefault(t => t.Id == id);
+            var ticket = _db.Tickets.Include("AsignadosUsuarios").FirstOrDefault(t => t.Id == id);
 
             if (ticket == null)
             {
@@ -177,15 +203,29 @@ namespace SyspotecTestService.Business.Services
 
         private EstadoTicket? GetTicketStatus(string name)
         {
-            return _db.EstadoTickets.FirstOrDefault(et => et.Nombre.Equals(name));
+            var status = _db.EstadoTickets.FirstOrDefault(et => et.Nombre.Equals(name));
+
+            if (status == null)
+            {
+                throw new TicketServiceException("Estado no existente");
+            }
+
+            return status;
         }
 
         private EstadoTicket? GetTicketStatusById(int id)
         {
-            return _db.EstadoTickets.FirstOrDefault(et => et.Id == id);
+            var status = _db.EstadoTickets.FirstOrDefault(et => et.Id == id);
+
+            if (status == null)
+            {
+                throw new TicketServiceException("Estado no existente");
+            }
+
+            return status;
         }
 
-       
+
 
         #endregion
     }
