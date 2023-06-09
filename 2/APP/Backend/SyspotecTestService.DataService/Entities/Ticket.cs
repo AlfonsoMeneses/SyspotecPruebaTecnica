@@ -13,5 +13,5 @@ public partial class Ticket
 
     public string? Prioridad { get; set; }
 
-    public virtual ICollection<AsignadosUsuario> AsignadosUsuarios { get; set; } = new List<AsignadosUsuario>();
+    public virtual AsignadosUsuario? AsignadosUsuarios { get; set; }
 }

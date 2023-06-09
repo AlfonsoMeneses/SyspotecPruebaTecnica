@@ -55,8 +55,8 @@ public partial class SyspotecTestMySQLContext : DbContext
                 .HasForeignKey(d => d.IdEstado)
                 .HasConstraintName("Fk_AsignadosUsuarios_Estado_Id");
 
-            entity.HasOne(d => d.Ticket).WithMany(p => p.AsignadosUsuarios)
-                .HasForeignKey(d => d.IdTicket)
+            entity.HasOne(d => d.Ticket).WithOne(p => p.AsignadosUsuarios)
+                .HasForeignKey<AsignadosUsuario>(d => d.IdTicket)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_AsignadosUsuarios_Ticket_Id");
 

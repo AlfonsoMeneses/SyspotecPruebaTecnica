@@ -8,7 +8,9 @@ using SyspotecTestService.DataService;
 using SyspotecTestService.DataService.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,12 +46,7 @@ namespace SyspotecTestService.Business.Services
         {
             var ticket = GetTicket(ticketId);
 
-            var user = _db.Usuarios.FirstOrDefault(u => u.Id == userId);
-
-            if (user == null)
-            {
-                throw new TicketServiceException("Usuario no existente");
-            }
+            var user = GetUserById(userId);
 
             var assigValidate = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
 
@@ -76,8 +73,64 @@ namespace SyspotecTestService.Business.Services
             return ticketAssigned;
         }
 
+        public IEnumerable<TicketDto> Get(TicketFilters filters)
+        {
+
+            var lstTickets = (from tickets in _db.Tickets
+                              join asignado in _db.AsignadosUsuarios on tickets.Id equals asignado.IdTicket into au
+                              from a in au.DefaultIfEmpty()
+                              join user in _db.Usuarios on a.IdUsuario equals user.Id  into ua
+                              from u in ua.DefaultIfEmpty()
+                              join status in _db.EstadoTickets on a.IdEstado equals status.Id into sa
+                              from s in sa.DefaultIfEmpty()
+                              where (filters.UserName == null || u.Nombre.Contains(filters.UserName)) &&
+                                    (filters.Status == null || s.Id == filters.Status.Value ) &&
+                                    (filters.Number == null || tickets.Numero == filters.Number) &&
+                                    (filters.Priority == null || tickets.Prioridad!.Equals(filters.Priority)) &&
+                                    (filters.Description == null || tickets.Descripcion!.Contains(filters.Description)) &&
+                                    (filters.From == null || a.Fecha >= filters.From) &&
+                                    (filters.To == null || a.Fecha <= filters.To) &&
+                                    (filters.IsAssigned == null || (a == null && !filters.IsAssigned.Value) || (a != null && filters.IsAssigned.Value))
+                              select new TicketDto
+                              {
+                                  Id = tickets.Id,
+                                  Descripcion = tickets.Descripcion,
+                                  Numero = tickets.Numero,
+                                  Prioridad = tickets.Prioridad,
+                                  AsignadoUsuario = a == null ? null : new AsignadosUsuarioDto
+                                  {
+                                      Fecha = a.Fecha,
+                                      Estado = new EstadoTicketDto
+                                      {
+                                          Id = s.Id,
+                                          Nombre = s.Nombre
+                                      },
+                                      Usuario = new UsuarioDto
+                                      {
+                                          Id = u.Id,
+                                          Nombre = u.Nombre,
+                                          Cedula = u.Cedula
+                                      }
+                                  }
+                              }).ToList();
+
+
+            return lstTickets;
+        }
 
         #region 
+
+        private Usuario GetUserById(int id)
+        {
+            var user = _db.Usuarios.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new TicketServiceException("Usuario no existente");
+            }
+
+            return user;
+        }
 
         private int GetNewTicketNumber()
         {
@@ -106,6 +159,11 @@ namespace SyspotecTestService.Business.Services
         private EstadoTicket? GetTicketStatus(string name)
         {
             return _db.EstadoTickets.FirstOrDefault(et => et.Nombre.Equals(name));
+        }
+
+        private EstadoTicket? GetTicketStatusById(int id)
+        {
+            return _db.EstadoTickets.FirstOrDefault(et => et.Id == id);
         }
 
         #endregion

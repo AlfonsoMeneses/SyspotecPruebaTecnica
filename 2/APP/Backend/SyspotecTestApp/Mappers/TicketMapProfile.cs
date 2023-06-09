@@ -10,6 +10,8 @@ namespace SyspotecTestService.API.Mappers
         public TicketMapProfile()
         {
             CreateMap<TicketToCreateRequest, TicketDto>();
+
+            CreateMap<TicketFiltersRequest, TicketFilters>();
         }
     }
 }

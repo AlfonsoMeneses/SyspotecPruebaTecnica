@@ -9,6 +9,7 @@ namespace SyspotecTestService.Contracts.Services
 {
     public interface ITicketService
     {
+        IEnumerable<TicketDto> Get(TicketFilters filters);
         TicketDto Create(TicketDto ticket);
 
         TicketDto AssignTicket(int ticketId, int userId, DateTime assignDate);
