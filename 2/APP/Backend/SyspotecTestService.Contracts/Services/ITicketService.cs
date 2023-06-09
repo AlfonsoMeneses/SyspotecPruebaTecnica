@@ -13,5 +13,7 @@ namespace SyspotecTestService.Contracts.Services
         TicketDto Create(TicketDto ticket);
 
         TicketDto AssignTicket(int ticketId, int userId, DateTime assignDate);
+
+        TicketDto Delete(int ticketId);
     }
 }

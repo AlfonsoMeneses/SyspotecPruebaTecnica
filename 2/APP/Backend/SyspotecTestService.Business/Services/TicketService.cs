@@ -73,6 +73,25 @@ namespace SyspotecTestService.Business.Services
             return ticketAssigned;
         }
 
+        public TicketDto Delete(int ticketId)
+        {
+            var ticket = GetTicket(ticketId);
+
+            var asignado = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
+
+            if (asignado != null)
+            {
+                _db.AsignadosUsuarios.Remove(asignado);
+            }
+
+            _db.Tickets.Remove(ticket);
+
+            _db.SaveChanges();
+
+            return _mapper.Map<TicketDto>(ticket);
+
+        }
+
         public IEnumerable<TicketDto> Get(TicketFilters filters)
         {
 
@@ -165,6 +184,8 @@ namespace SyspotecTestService.Business.Services
         {
             return _db.EstadoTickets.FirstOrDefault(et => et.Id == id);
         }
+
+       
 
         #endregion
     }
