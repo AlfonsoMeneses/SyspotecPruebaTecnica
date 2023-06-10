@@ -4,11 +4,6 @@ using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
 using SyspotecTestService.DataService;
 using SyspotecTestService.DataService.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SyspotecTestService.Business.Services
 {

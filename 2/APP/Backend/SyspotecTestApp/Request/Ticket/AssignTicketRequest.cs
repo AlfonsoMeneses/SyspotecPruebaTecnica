@@ -6,8 +6,5 @@ namespace SyspotecTestService.API.Request.Ticket
     {
         [Required]
         public int IdUsuario { get; set; }
-
-        [Required]
-        public DateTime Fecha { get; set; }
     }
 }

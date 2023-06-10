@@ -6,13 +6,6 @@ using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
 using SyspotecTestService.DataService;
 using SyspotecTestService.DataService.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SyspotecTestService.Business.Services
 {
@@ -25,97 +18,6 @@ namespace SyspotecTestService.Business.Services
         {
             _db = db;
             _mapper = mapper;
-        }
-        public TicketDto Create(TicketDto ticket)
-        {
-            if (string.IsNullOrEmpty(ticket.Descripcion) || string.IsNullOrEmpty(ticket.Prioridad))
-            {
-                throw new TicketServiceException("Faltan datos obligatorios");
-            }
-
-            var newTicket = _mapper.Map<Ticket>(ticket);
-            newTicket.Numero = GetNewTicketNumber();
-
-            _db.Tickets.Add(newTicket);
-            _db.SaveChanges();
-
-            return _mapper.Map<TicketDto>(newTicket);
-        }
-
-        public TicketDto AssignTicket(int ticketId, int userId, DateTime assignDate)
-        {
-            var ticket = GetTicket(ticketId);
-
-            var user = GetUserById(userId);
-
-            var assigValidate = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
-
-            if (assigValidate != null)
-            {
-                throw new TicketServiceException("Ticket ya se encuentra asignado a un usuario");
-            }
-
-            var assign = new AsignadosUsuario
-            {
-                Ticket = ticket,
-                Usuario = user,
-                Estado = GetTicketStatus(TicketStatus.OnProccess),
-                Fecha = assignDate
-            };
-
-
-            _db.Add(assign);
-            _db.SaveChanges();
-
-            var ticketAssigned = _mapper.Map<TicketDto>(ticket);
-            // ticketAssigned.AsignadosUsuarios = _mapper.Map<AsignadosUsuarioDto>(assign);
-
-            return ticketAssigned;
-        }
-
-        public TicketDto ChangeTicketStatus(int ticketId, int statusId)
-        {
-            var ticket = GetTicket(ticketId);
-            var status = GetTicketStatusById(statusId);
-
-            var assign = _db.AsignadosUsuarios.Include("Usuario")
-                                               .Include("Estado")
-                                               .FirstOrDefault(a => a.IdTicket == ticketId);
-
-            if (assign == null)
-            {
-                throw new TicketServiceException("Ticket no se encuentra asignado a un usuario, por lo que no se puede cambiar el estado");
-            }
-
-            assign.Estado = status;
-
-            _db.AsignadosUsuarios.Update(assign);
-
-            _db.SaveChanges();
-
-            var ticketEdited = _mapper.Map<TicketDto>(ticket);
-            //ticketEdited.AsignadosUsuarios = _mapper.Map<AsignadosUsuarioDto>(assign);
-
-            return ticketEdited;
-        }
-
-        public TicketDto Delete(int ticketId)
-        {
-            var ticket = GetTicket(ticketId);
-
-            var asignado = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
-
-            if (asignado != null)
-            {
-                _db.AsignadosUsuarios.Remove(asignado);
-            }
-
-            _db.Tickets.Remove(ticket);
-
-            _db.SaveChanges();
-
-            return _mapper.Map<TicketDto>(ticket);
-
         }
 
         public IEnumerable<TicketDto> Get(TicketFilters filters)
@@ -163,6 +65,72 @@ namespace SyspotecTestService.Business.Services
             return lstTickets;
         }
 
+        public TicketDto Create(TicketDto ticket)
+        {
+            if (string.IsNullOrEmpty(ticket.Descripcion) || string.IsNullOrEmpty(ticket.Prioridad))
+            {
+                throw new TicketServiceException("Faltan datos obligatorios");
+            }
+
+            var newTicket = _mapper.Map<Ticket>(ticket);
+            newTicket.Numero = GetNewTicketNumber();
+
+            _db.Tickets.Add(newTicket);
+            _db.SaveChanges();
+
+            return _mapper.Map<TicketDto>(newTicket);
+        }
+
+        public TicketDto AssignTicket(int ticketId, int userId)
+        {
+            var ticket = GetTicket(ticketId);
+
+            var user = GetUserById(userId);
+
+            var assigValidate = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
+
+            if (assigValidate != null)
+            {
+                throw new TicketServiceException("Ticket ya se encuentra asignado a un usuario");
+            }
+
+            var assign = new AsignadosUsuario
+            {
+                Ticket = ticket,
+                Usuario = user,
+                Estado = GetTicketStatus(TicketStatus.OnProccess),
+                Fecha = DateTime.Now
+            };
+
+            _db.Add(assign);
+            _db.SaveChanges();
+
+            return _mapper.Map<TicketDto>(ticket);
+        }
+
+        public TicketDto ChangeTicketStatus(int ticketId, int statusId)
+        {
+            var ticket = GetTicket(ticketId);
+            var status = GetTicketStatusById(statusId);
+
+            var assign = _db.AsignadosUsuarios.Include("Usuario")
+                                               .Include("Estado")
+                                               .FirstOrDefault(a => a.IdTicket == ticketId);
+
+            if (assign == null)
+            {
+                throw new TicketServiceException("Ticket no se encuentra asignado a un usuario, por lo que no se puede cambiar el estado");
+            }
+
+            assign.Estado = status;
+            assign.Fecha = DateTime.Now;
+
+            _db.AsignadosUsuarios.Update(assign);
+
+            _db.SaveChanges();
+
+            return  _mapper.Map<TicketDto>(ticket);
+        }
         public TicketDto EditTicket(int ticketId, TicketDto ticketToEdit)
         {
             var ticket = GetTicket(ticketId);
@@ -193,16 +161,11 @@ namespace SyspotecTestService.Business.Services
                     if (user != null)
                     {
                         ticket.AsignadosUsuarios.Usuario = user;
+                        ticket.AsignadosUsuarios.Fecha = DateTime.Now;
                         wasUserChange = true;
                     }
-                    
-                }
 
-                if (ticketToEdit.AsignadosUsuarios.Fecha != null && ticket.AsignadosUsuarios.Fecha != ticketToEdit.AsignadosUsuarios.Fecha)
-                {
-                    ticket.AsignadosUsuarios.Fecha = ticketToEdit.AsignadosUsuarios.Fecha.Value;
                 }
-
             }
 
             _db.Tickets.Update(ticket);
@@ -218,7 +181,26 @@ namespace SyspotecTestService.Business.Services
                     ticket.AsignadosUsuarios.Usuario = GetUserById(ticket.AsignadosUsuarios.IdUsuario);
                 }
             }
-            
+
+
+            return _mapper.Map<TicketDto>(ticket);
+
+        }
+
+        public TicketDto Delete(int ticketId)
+        {
+            var ticket = GetTicket(ticketId);
+
+            var asignado = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdTicket == ticketId);
+
+            if (asignado != null)
+            {
+                _db.AsignadosUsuarios.Remove(asignado);
+            }
+
+            _db.Tickets.Remove(ticket);
+
+            _db.SaveChanges();
 
             return _mapper.Map<TicketDto>(ticket);
 
@@ -248,23 +230,6 @@ namespace SyspotecTestService.Business.Services
             }
 
             return 1;
-        }
-
-        private Ticket GetTicket(int id, bool withAssignment)
-        {
-            if (withAssignment)
-            {
-                return GetTicket(id);
-            }
-
-            var ticket = _db.Tickets.FirstOrDefault(t => t.Id == id);
-
-            if (ticket == null)
-            {
-                throw new TicketServiceException("Ticket no existente");
-            }
-
-            return ticket;
         }
 
         private Ticket GetTicket(int id)

@@ -1,5 +1,4 @@
-﻿using SyspotecTestService.Contracts.Models;
-
+﻿
 namespace SyspotecTestService.API.Response
 {
     public class DataPaginationResponse

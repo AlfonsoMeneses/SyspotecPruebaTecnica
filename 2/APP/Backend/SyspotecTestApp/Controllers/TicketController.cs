@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SyspotecTestService.API.Helpers;
 using SyspotecTestService.API.Request.Ticket;
-using SyspotecTestService.API.Response;
 using SyspotecTestService.Contracts.Exceptions;
 using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
@@ -89,7 +87,7 @@ namespace SyspotecTestService.API.Controllers
         {
             try
             {
-                var res = _service.AssignTicket(ticketId,assignTicket.IdUsuario, assignTicket.Fecha);
+                var res = _service.AssignTicket(ticketId,assignTicket.IdUsuario);
 
                 return Ok(res);
             }
@@ -138,33 +136,6 @@ namespace SyspotecTestService.API.Controllers
             }
         }
 
-        [HttpDelete("{ticketId}")]
-        public IActionResult Delete(int ticketId)
-        {
-            try
-            {
-                var res = _service.Delete(ticketId);
-
-                return Ok(res);
-            }
-            catch (TicketServiceException uex)
-            {
-                var res = new
-                {
-                    Error = uex.Message
-                };
-                return BadRequest(res);
-            }
-            catch (Exception)
-            {
-                var res = new
-                {
-                    Error = INTERNAL_ERROR_MESSAGE
-                };
-                return StatusCode(500, res);
-            }
-        }
-
         [HttpPut("{ticketId}")]
         public IActionResult Edit(int ticketId, [FromBody] TicketToEditRequest ticketToEdit)
         {
@@ -192,6 +163,32 @@ namespace SyspotecTestService.API.Controllers
             }
         }
 
+        [HttpDelete("{ticketId}")]
+        public IActionResult Delete(int ticketId)
+        {
+            try
+            {
+                var res = _service.Delete(ticketId);
+
+                return Ok(res);
+            }
+            catch (TicketServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
+        }
 
     }
 }

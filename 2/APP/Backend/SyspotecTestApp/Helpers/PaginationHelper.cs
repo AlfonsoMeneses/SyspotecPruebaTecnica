@@ -1,6 +1,4 @@
 ﻿using SyspotecTestService.API.Response;
-using SyspotecTestService.DataService.Entities;
-using System.Collections;
 
 namespace SyspotecTestService.API.Helpers
 {

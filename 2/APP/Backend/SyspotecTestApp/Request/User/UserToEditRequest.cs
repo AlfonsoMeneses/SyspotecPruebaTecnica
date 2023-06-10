@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace SyspotecTestService.API.Request.User
 {
     public class UserToEditRequest
