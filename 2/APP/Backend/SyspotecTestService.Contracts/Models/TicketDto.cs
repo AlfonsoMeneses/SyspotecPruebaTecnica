@@ -16,6 +16,6 @@ namespace SyspotecTestService.Contracts.Models
 
         public string? Prioridad { get; set; }
 
-        public AsignadosUsuarioDto? AsignadoUsuario { get; set; }
+        public AsignadosUsuarioDto? AsignadosUsuarios { get; set; }
     }
 }

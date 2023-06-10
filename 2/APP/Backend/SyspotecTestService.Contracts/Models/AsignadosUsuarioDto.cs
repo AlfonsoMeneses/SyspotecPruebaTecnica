@@ -14,6 +14,6 @@ namespace SyspotecTestService.Contracts.Models
 
         public EstadoTicketDto Estado { get; set; } = null!;
 
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
     }
 }

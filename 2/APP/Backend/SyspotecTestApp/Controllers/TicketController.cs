@@ -165,6 +165,33 @@ namespace SyspotecTestService.API.Controllers
             }
         }
 
+        [HttpPut("{ticketId}")]
+        public IActionResult Edit(int ticketId, [FromBody] TicketToEditRequest ticketToEdit)
+        {
+            try
+            {
+                var res = _service.EditTicket(ticketId,ticketToEdit.GetTicket());
+
+                return Ok(res);
+            }
+            catch (TicketServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
+        }
+
 
     }
 }

@@ -68,7 +68,7 @@ namespace SyspotecTestService.Business.Services
             _db.SaveChanges();
 
             var ticketAssigned = _mapper.Map<TicketDto>(ticket);
-            ticketAssigned.AsignadoUsuario = _mapper.Map<AsignadosUsuarioDto>(assign);
+            // ticketAssigned.AsignadosUsuarios = _mapper.Map<AsignadosUsuarioDto>(assign);
 
             return ticketAssigned;
         }
@@ -94,7 +94,7 @@ namespace SyspotecTestService.Business.Services
             _db.SaveChanges();
 
             var ticketEdited = _mapper.Map<TicketDto>(ticket);
-            ticketEdited.AsignadoUsuario = _mapper.Map<AsignadosUsuarioDto>(assign);
+            //ticketEdited.AsignadosUsuarios = _mapper.Map<AsignadosUsuarioDto>(assign);
 
             return ticketEdited;
         }
@@ -142,7 +142,7 @@ namespace SyspotecTestService.Business.Services
                                   Descripcion = tickets.Descripcion,
                                   Numero = tickets.Numero,
                                   Prioridad = tickets.Prioridad,
-                                  AsignadoUsuario = a == null ? null : new AsignadosUsuarioDto
+                                  AsignadosUsuarios = a == null ? null : new AsignadosUsuarioDto
                                   {
                                       Fecha = a.Fecha,
                                       Estado = new EstadoTicketDto
@@ -163,7 +163,68 @@ namespace SyspotecTestService.Business.Services
             return lstTickets;
         }
 
-        #region 
+        public TicketDto EditTicket(int ticketId, TicketDto ticketToEdit)
+        {
+            var ticket = GetTicket(ticketId);
+
+            if (ticketToEdit == null)
+            {
+                return _mapper.Map<TicketDto>(ticket);
+            }
+
+            if (!string.IsNullOrEmpty(ticketToEdit.Prioridad) && !ticketToEdit.Prioridad.Equals(ticket.Prioridad))
+            {
+                ticket.Prioridad = ticketToEdit.Prioridad;
+            }
+
+            if (!string.IsNullOrEmpty(ticketToEdit.Descripcion) && !ticketToEdit.Descripcion.Equals(ticket.Descripcion))
+            {
+                ticket.Descripcion = ticketToEdit.Descripcion;
+            }
+
+            var wasUserChange = false;
+            if (ticketToEdit.AsignadosUsuarios != null && ticket.AsignadosUsuarios != null)
+            {
+
+                if (ticketToEdit.AsignadosUsuarios.Usuario.Id != ticket.AsignadosUsuarios.IdUsuario)
+                {
+                    var user = GetUserById(ticketToEdit.AsignadosUsuarios.Usuario.Id);
+
+                    if (user != null)
+                    {
+                        ticket.AsignadosUsuarios.Usuario = user;
+                        wasUserChange = true;
+                    }
+                    
+                }
+
+                if (ticketToEdit.AsignadosUsuarios.Fecha != null && ticket.AsignadosUsuarios.Fecha != ticketToEdit.AsignadosUsuarios.Fecha)
+                {
+                    ticket.AsignadosUsuarios.Fecha = ticketToEdit.AsignadosUsuarios.Fecha.Value;
+                }
+
+            }
+
+            _db.Tickets.Update(ticket);
+            _db.SaveChanges();
+
+            if (ticket.AsignadosUsuarios != null)
+            {
+                var statusId = ticket.AsignadosUsuarios.IdEstado!.Value;
+                ticket.AsignadosUsuarios.Estado = GetTicketStatusById(statusId);
+
+                if (!wasUserChange)
+                {
+                    ticket.AsignadosUsuarios.Usuario = GetUserById(ticket.AsignadosUsuarios.IdUsuario);
+                }
+            }
+            
+
+            return _mapper.Map<TicketDto>(ticket);
+
+        }
+
+        #region Interno
 
         private Usuario GetUserById(int id)
         {
@@ -187,6 +248,23 @@ namespace SyspotecTestService.Business.Services
             }
 
             return 1;
+        }
+
+        private Ticket GetTicket(int id, bool withAssignment)
+        {
+            if (withAssignment)
+            {
+                return GetTicket(id);
+            }
+
+            var ticket = _db.Tickets.FirstOrDefault(t => t.Id == id);
+
+            if (ticket == null)
+            {
+                throw new TicketServiceException("Ticket no existente");
+            }
+
+            return ticket;
         }
 
         private Ticket GetTicket(int id)
@@ -225,8 +303,6 @@ namespace SyspotecTestService.Business.Services
             return status;
         }
 
-
-
-        #endregion
+        #endregion Interno
     }
 }

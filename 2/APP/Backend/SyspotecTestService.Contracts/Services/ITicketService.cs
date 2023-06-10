@@ -11,11 +11,10 @@ namespace SyspotecTestService.Contracts.Services
     {
         IEnumerable<TicketDto> Get(TicketFilters filters);
         TicketDto Create(TicketDto ticket);
-
         TicketDto AssignTicket(int ticketId, int userId, DateTime assignDate);
-
-        TicketDto Delete(int ticketId);
-
         TicketDto ChangeTicketStatus(int ticketId, int statusId);
+        TicketDto EditTicket(int ticketId, TicketDto ticketToEdit);
+        TicketDto Delete(int ticketId);
+        
     }
 }

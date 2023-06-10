@@ -36,9 +36,9 @@ public partial class SyspotecTestMySQLContext : DbContext
 
         modelBuilder.Entity<AsignadosUsuario>(entity =>
         {
-            entity.HasKey(e => new { e.IdUsuario, e.IdTicket })
+            entity.HasKey(e => new { e.IdTicket })
                 .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0 });
 
             entity.HasIndex(e => e.IdEstado, "Fk_AsignadosUsuarios_Estado_Id_idx");
 
@@ -62,7 +62,7 @@ public partial class SyspotecTestMySQLContext : DbContext
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.AsignadosUsuarios)
                 .HasForeignKey(d => d.IdUsuario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_AsignadosUsuarios_Usuario_Id");
         });
 
