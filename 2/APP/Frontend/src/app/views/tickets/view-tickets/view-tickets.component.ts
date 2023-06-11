@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TicketFiltersDto} from 'src/app/models/tickets/ticket_filters.model'
 import {TicketService} from 'src/app/services/tickets/ticket.service'
+import { UserService } from 'src/app/services/users/user.service';
 @Component({
   selector: 'app-view-tickets',
   templateUrl: './view-tickets.component.html',
@@ -12,6 +13,7 @@ export class ViewTicketsComponent implements OnInit {
 
   //Insumos
   public ticketStatus: Array<any> = [];
+  public users: Array<any> = [];
 
   //data
   public tickets: Array<any> = [];
@@ -27,11 +29,12 @@ export class ViewTicketsComponent implements OnInit {
   public deleteMessage:string = "";
 
 
-  constructor(private _ticketService: TicketService) {}
+  constructor(private _ticketService: TicketService, private _userService: UserService) {}
 
   ngOnInit(): void {
     this.setFilters();
     this.getTicketStatus();
+    this.getUsers();
     this.getData();
   }
 
@@ -46,6 +49,21 @@ export class ViewTicketsComponent implements OnInit {
       response =>{
         this.ticketStatus = response;
         this.isWaiting = false;
+      },
+      error =>{
+        this.isWaiting = false;
+        this.OnError(error);
+      }
+    )
+  }
+
+  private getUsers(){
+    this.isWaiting = true;
+    this._userService.getUsers().subscribe(
+      response =>{
+        this.users = response;
+        this.isWaiting = false;
+        console.log(this.users);
       },
       error =>{
         this.isWaiting = false;

@@ -9,6 +9,8 @@ import { TicketService } from 'src/app/services/tickets/ticket.service';
 export class TicketComponent implements OnInit {
   @Input() public ticket: any;
   @Input() public lstTicketStatus: Array<any> = [];
+  @Input() public users: Array<any> = [];
+
   @Output() changeTicketEvent = new EventEmitter<boolean>();
 
   public avatarName: string = '';
@@ -36,7 +38,6 @@ export class TicketComponent implements OnInit {
 
   ngOnInit(): void {
     this.ticketStatus = this._ticketService.getTicketStatus();
-    console.log(this.ticket.id);
     this.setMessages();
     if (this.ticket.asignadosUsuarios) {
       this.avatarName = this.ticket.asignadosUsuarios.usuario.nombre.charAt(0);
@@ -88,6 +89,13 @@ export class TicketComponent implements OnInit {
           this.OnError(error);
         }
       )
+    }
+  }
+
+  //
+  refreshData(validate:boolean){
+    if (validate) {
+      this.changeTicketEvent.emit(true);
     }
   }
 

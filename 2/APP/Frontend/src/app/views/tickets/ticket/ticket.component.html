@@ -38,11 +38,8 @@
         </div>
 
         <div  *ngIf="assignUserValidate">
-          <div class="d-grid gap-2 mb-2" *ngIf="!isTicketStatusFinish">
-            <button cButton color="success"  >Editar</button>
-          </div>
+
           <div class="d-grid gap-2 mb-2">
-            <!-- <button cButton color="dark" >Modificar Estado</button> -->
             <app-change-ticket-status [ticketStatus]="lstTicketStatus"
                                       [actualStatusId]="ticket.asignadosUsuarios.estado.id"
                                       (newStatusEmitter)="OnChangeTicketStatus($event)"
@@ -51,6 +48,13 @@
             </app-change-ticket-status>
           </div>
 
+        </div>
+        <div class="d-grid gap-2 mb-2" *ngIf="!isTicketStatusFinish">
+          <app-create-or-edit-ticket [ticketToEdit]="ticket"
+                                      [users]="users"
+                                      (createOrEditEmmite)="refreshData($event)">
+
+          </app-create-or-edit-ticket>
         </div>
         <div class="d-grid gap-2" *ngIf="!isTicketStatusFinish">
           <button cButton color="danger" class="text-white" (click)="confirmDeleteTicket()" >Eliminar</button>

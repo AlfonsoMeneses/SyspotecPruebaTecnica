@@ -73,7 +73,12 @@
                     </c-row>
           </form>
         </c-card-body>
+        <c-card-footer>
+          <app-create-or-edit-ticket  [users]="users"
+                                      (createOrEditEmmite)="refreshData($event)">
 
+          </app-create-or-edit-ticket>
+        </c-card-footer>
       </c-card>
     </c-col>
   </c-row>
@@ -84,6 +89,7 @@
       <c-card-body class="p-2">
         <div *ngFor="let ticket of tickets; index as i">
           <app-ticket [ticket]="ticket"
+                      [users]="users"
                       [lstTicketStatus]="ticketStatus"
                       (changeTicketEvent)="refreshData($event)">
           </app-ticket>
