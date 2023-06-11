@@ -8,7 +8,7 @@ import { TicketService } from 'src/app/services/tickets/ticket.service';
 })
 export class TicketComponent implements OnInit {
   @Input() public ticket: any;
-
+  @Input() public lstTicketStatus: Array<any> = [];
   @Output() changeTicketEvent = new EventEmitter<boolean>();
 
   public avatarName: string = '';
@@ -36,6 +36,7 @@ export class TicketComponent implements OnInit {
 
   ngOnInit(): void {
     this.ticketStatus = this._ticketService.getTicketStatus();
+    console.log(this.ticket.id);
     this.setMessages();
     if (this.ticket.asignadosUsuarios) {
       this.avatarName = this.ticket.asignadosUsuarios.usuario.nombre.charAt(0);
@@ -72,6 +73,26 @@ export class TicketComponent implements OnInit {
     }
 
   }
+
+  //Cambio Estado
+  OnChangeTicketStatus(ticketStatusId:number){
+    if(ticketStatusId > 0){
+      this.isWaiting = true;
+      this._ticketService.changeStatus(this.ticket.id,ticketStatusId).subscribe(
+        response =>{
+          this.isWaiting = false;
+          this.changeTicketEvent.emit(true);
+        },
+        error =>{
+          this.isWaiting = false;
+          this.OnError(error);
+        }
+      )
+    }
+  }
+
+
+  //Eliminar Ticket
 
   confirmDeleteTicket(){
     this.isDeleting = true;

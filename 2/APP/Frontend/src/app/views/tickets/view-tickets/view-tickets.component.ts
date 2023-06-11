@@ -8,7 +8,10 @@ import {TicketService} from 'src/app/services/tickets/ticket.service'
 })
 export class ViewTicketsComponent implements OnInit {
 
-  public filters:TicketFiltersDto = new TicketFiltersDto('','',null,-1,'',-1,new Date(),new Date(),-1,-1);
+  public filters:TicketFiltersDto = new TicketFiltersDto('','',null,-1,'',-1,'','',-1,-1);
+
+  //Insumos
+  public ticketStatus: Array<any> = [];
 
   //data
   public tickets: Array<any> = [];
@@ -28,12 +31,27 @@ export class ViewTicketsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setFilters();
+    this.getTicketStatus();
     this.getData();
   }
 
-    private setFilters(){
+  private setFilters(){
     this.setDateFilter();
     this.setPaginationFilter();
+  }
+
+  private getTicketStatus(){
+    this.isWaiting = true;
+    this._ticketService.getAllTicketStatus().subscribe(
+      response =>{
+        this.ticketStatus = response;
+        this.isWaiting = false;
+      },
+      error =>{
+        this.isWaiting = false;
+        this.OnError(error);
+      }
+    )
   }
 
   private setDateFilter(){
@@ -44,13 +62,13 @@ export class ViewTicketsComponent implements OnInit {
       actualMonth = "0"+actualMonth;
     }
 
-    this.filters.from = new Date(actualDate.getFullYear() +"-"+actualMonth + "-01");
+    this.filters.from = actualDate.getFullYear() +"-"+actualMonth + "-01";
 
     actualDate = new Date(actualDate.getFullYear(),actualDate.getMonth()+1,1);
 
     actualDate = new Date(actualDate.getFullYear(),actualDate.getMonth(),actualDate.getDate()-1);
 
-    this.filters.to = new Date(actualDate.getFullYear() + "-" + actualMonth + "-"+ actualDate.getDate());
+    this.filters.to = actualDate.getFullYear() + "-" + actualMonth + "-"+ actualDate.getDate();
 
   }
 

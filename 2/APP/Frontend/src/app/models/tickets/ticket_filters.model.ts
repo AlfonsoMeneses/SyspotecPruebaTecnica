@@ -1,3 +1,4 @@
+
 export class TicketFiltersDto {
   constructor(
     public userName: string,
@@ -6,8 +7,8 @@ export class TicketFiltersDto {
     public number: number,
     public priority: string,
     public status: number,
-    public from: Date,
-    public to: Date,
+    public from: string,
+    public to: string,
     public pageNumber: number,
     public pageSize: number
   ) {}

@@ -42,7 +42,13 @@
             <button cButton color="success"  >Editar</button>
           </div>
           <div class="d-grid gap-2 mb-2">
-            <button cButton color="dark" >Modificar Estado</button>
+            <!-- <button cButton color="dark" >Modificar Estado</button> -->
+            <app-change-ticket-status [ticketStatus]="lstTicketStatus"
+                                      [actualStatusId]="ticket.asignadosUsuarios.estado.id"
+                                      (newStatusEmitter)="OnChangeTicketStatus($event)"
+                          >
+
+            </app-change-ticket-status>
           </div>
 
         </div>

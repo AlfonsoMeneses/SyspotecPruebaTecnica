@@ -83,7 +83,9 @@
     <c-card>
       <c-card-body class="p-2">
         <div *ngFor="let ticket of tickets; index as i">
-          <app-ticket [ticket]="ticket" (changeTicketEvent)="refreshData($event)">
+          <app-ticket [ticket]="ticket"
+                      [lstTicketStatus]="ticketStatus"
+                      (changeTicketEvent)="refreshData($event)">
           </app-ticket>
         </div>
       </c-card-body>

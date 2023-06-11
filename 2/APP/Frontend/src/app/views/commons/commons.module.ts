@@ -18,9 +18,15 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmViewComponent } from './confirm-view/confirm-view.component';
 import { WaitingComponent } from './waiting/waiting.component';
 import { ErrorViewComponent } from './error-view/error-view.component';
+import { ErrorAlertComponent } from './error-alert/error-alert.component';
 
 @NgModule({
-  declarations: [ConfirmViewComponent, WaitingComponent, ErrorViewComponent],
+  declarations: [
+    ConfirmViewComponent,
+    WaitingComponent,
+    ErrorViewComponent,
+    ErrorAlertComponent,
+  ],
   imports: [
     CommonModule,
     AlertModule,
@@ -36,6 +42,11 @@ import { ErrorViewComponent } from './error-view/error-view.component';
     GridModule,
     SpinnerModule,
   ],
-  exports: [ConfirmViewComponent,WaitingComponent, ErrorViewComponent],
+  exports: [
+    ConfirmViewComponent,
+    WaitingComponent,
+    ErrorViewComponent,
+    ErrorAlertComponent,
+  ],
 })
 export class CommonsModule {}

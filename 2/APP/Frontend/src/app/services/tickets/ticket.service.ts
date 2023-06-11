@@ -19,6 +19,7 @@ export class TicketService {
   private _edit: string = environment.services.tickets.edit;
   private _assingUser: string = environment.services.tickets.assingUser;
   private _delete: string = environment.services.tickets.delete;
+  private _getStatus: string = environment.services.tickets.getStatus;
   private _changeStatus: string = environment.services.tickets.changeStatus;
   private _paths = environment.services.tickets.paths;
   private _status = environment.status;
@@ -27,6 +28,11 @@ export class TicketService {
 
   getTicketStatus() {
     return this._status;
+  }
+
+  getAllTicketStatus():Observable<any>{
+    let urlService = this._urlBase + this._getStatus;
+    return this._http.get(urlService);
   }
 
   getTickets(filters: TicketFiltersDto): Observable<any> {

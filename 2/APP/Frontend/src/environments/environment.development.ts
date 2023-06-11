@@ -14,6 +14,7 @@ export const environment = {
       edit: 'ticket/',
       delete: 'ticket/',
       assingUser: 'ticket/',
+      getStatus: 'ticket/status',
       changeStatus: 'ticket/{ticketId}/status/{statusId}',
       paths:{
         ticketId: '{ticketId}',
