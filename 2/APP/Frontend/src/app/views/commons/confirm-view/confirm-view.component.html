@@ -1,0 +1,16 @@
+<c-modal id="liveDemoModal"
+        [visible]="isVisible"
+        alignment="center"
+        backdrop="static" >
+  <c-modal-header  [ngClass]="classTemplate" >
+    <h5 cModalTitle>{{tittle}}</h5>
+    <button (click)="confirm(false)" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>{{message}}</c-modal-body>
+  <c-modal-footer>
+    <button (click)="confirm(false)" cButton color="danger" variant="outline" >
+      Cancelar
+    </button>
+    <button cButton [color]="color" (click)="confirm(true)">Aceptar</button>
+  </c-modal-footer>
+</c-modal>

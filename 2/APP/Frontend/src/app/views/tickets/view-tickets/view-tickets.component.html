@@ -1,0 +1,108 @@
+<app-waiting *ngIf="isWaiting"></app-waiting>
+
+<c-container *ngIf="!isWaiting">
+  <c-row class="justify-content-center">
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-header>Filtros</c-card-header>
+        <c-card-body>
+          <form cForm
+                (ngSubmit)="OnSubmit()"
+                #queryForm="ngForm">
+                    <c-row [gutter]="3" class="align-items-center">
+                      <c-col md="2">
+                        <label cLabel="col" > Desde </label>
+                      </c-col>
+                      <c-col md="3">
+                        <input
+                          cFormControl
+                          id="beginDate"
+                          type="date"
+                          name="beginDate"
+                          [(ngModel)]="filters.from"
+                          >
+                      </c-col>
+                      <c-col md="2">
+                        <label cLabel="col" >Cuenta </label>
+                      </c-col>
+                      <c-col md="3">
+                        <!--
+                        <select aria-label="Default select example"
+                                cSelect
+                                name="accounts"
+                                [(ngModel)]="filters.accountId"
+                                required>
+                          <option></option>
+                          <option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</option>
+                        </select>
+                        -->
+                      </c-col>
+                      <c-col md="2">
+                        <button cButton type="submit" variant="outline" >Consultar</button>
+                      </c-col>
+                    </c-row>
+                    <c-row [gutter]="3" class="align-items-center mt-2">
+                      <c-col md="2">
+                        <label cLabel="col">Hasta</label>
+                      </c-col>
+                      <c-col md="3">
+                        <input
+                          cFormControl
+                          id="endDate-3"
+                          type="date"
+                          name="endDate"
+                          [(ngModel)]="filters.to">
+                      </c-col>
+                      <c-col md="2">
+                        <label cLabel="col" >Tipo Movimiento</label>
+                      </c-col>
+                      <c-col md="3">
+                        <!--
+                        <select cSelect
+                                name="movementTypes"
+                                [(ngModel)]="filters.isIncome"
+                                required>
+                          <option></option>
+                          <option *ngFor="let type of movementType" [value]="type.id">{{type.name}}</option>
+                        </select>
+                      -->
+                      </c-col>
+                      <c-col md="2">
+                        <button cButton color="secondary"  variant="outline" (click)="OnRefresh()" >Refrescar</button>
+                      </c-col>
+                    </c-row>
+          </form>
+        </c-card-body>
+
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <c-row class="justify-content-center">
+    <c-col xs>
+    <c-card>
+      <c-card-body class="p-2">
+        <div *ngFor="let ticket of tickets; index as i">
+          <app-ticket [ticket]="ticket" (changeTicketEvent)="refreshData($event)">
+          </app-ticket>
+        </div>
+      </c-card-body>
+    </c-card>
+    </c-col>
+  </c-row>
+</c-container>
+
+<app-confirm-view
+  [isVisible]="isDeleting"
+  color="warning"
+  tittle="¿Seguro?"
+  [message]="deleteMessage"
+  (isConfirm)="deleteMethod($event)"
+>
+</app-confirm-view>
+<app-error-view
+  [isVisible]="hasError"
+  [errorMessage]="errorMessage"
+  (closeEmit)="closeError($event)"
+>
+</app-error-view>

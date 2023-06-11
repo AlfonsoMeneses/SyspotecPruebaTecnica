@@ -1,0 +1,15 @@
+<c-modal id="liveDemoModal"
+        [visible]="isVisible"
+        alignment="center"
+        backdrop="static" >
+  <c-modal-header  class="bg-danger text-white" >
+    <h5 cModalTitle>Error</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>{{errorMessage}}</c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="danger" variant="outline" >
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>

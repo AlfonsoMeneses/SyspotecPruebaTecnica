@@ -1,0 +1,63 @@
+<app-waiting [isCenterTemplate]="true"  *ngIf="isWaiting"></app-waiting>
+
+<c-card class="mb-2" *ngIf="!isWaiting">
+  <c-card-body>
+    <c-row class="p-1">
+      <c-col sm="1">
+        <c-avatar
+          [color]="avatarColor"
+          shape="rounded"
+          textColor="white"
+          size="xl"
+        >
+          {{ avatarName }}
+        </c-avatar>
+      </c-col>
+      <c-col sm="9">
+        <label cLabel class="h5">{{ ticket.descripcion }}</label>
+        <div *ngIf="assignUserValidate">
+          <label cLabel>{{ ticket.asignadosUsuarios.usuario.nombre }} &#9642; {{ ticket.asignadosUsuarios.fecha | date }}</label>
+        </div>
+        <div>
+          <label cLabel>Prioridad: {{ ticket.prioridad }}</label>
+        </div>
+
+          <div *ngIf="assignUserValidate" [ngClass]="statusTemplate">
+            <label cLabel
+
+
+              >Estado: {{ ticket.asignadosUsuarios.estado.nombre }}</label
+            >
+
+        </div>
+
+      </c-col>
+      <c-col>
+        <div class="d-grid gap-2 mb-2"  *ngIf="!assignUserValidate">
+          <button cButton >Asignar</button>
+        </div>
+
+        <div  *ngIf="assignUserValidate">
+          <div class="d-grid gap-2 mb-2" *ngIf="!isTicketStatusFinish">
+            <button cButton color="success"  >Editar</button>
+          </div>
+          <div class="d-grid gap-2 mb-2">
+            <button cButton color="dark" >Modificar Estado</button>
+          </div>
+
+        </div>
+        <div class="d-grid gap-2" *ngIf="!isTicketStatusFinish">
+          <button cButton color="danger" class="text-white" (click)="confirmDeleteTicket()" >Eliminar</button>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card-body>
+</c-card>
+
+<app-confirm-view [isVisible]="isDeleting"
+                  color="warning"
+                  tittle="¿Seguro?"
+                  [message]="deleteMessage"
+                  (isConfirm)="deleteMethod($event)">
+
+</app-confirm-view>
