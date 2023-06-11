@@ -206,6 +206,19 @@ namespace SyspotecTestService.Business.Services
 
         }
 
+        public IEnumerable<EstadoTicketDto> GetTicketStatus()
+        {
+            var lst = _db.EstadoTickets.ToList();
+
+            List<EstadoTicketDto> lstStatus = new List<EstadoTicketDto>();
+
+            foreach (var status in lst)
+            {
+                lstStatus.Add(_mapper.Map<EstadoTicketDto>(status));
+            }
+
+            return lstStatus;
+        }
         #region Interno
 
         private Usuario GetUserById(int id)

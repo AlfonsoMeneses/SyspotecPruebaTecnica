@@ -5,6 +5,7 @@ using SyspotecTestService.API.Request.Ticket;
 using SyspotecTestService.Contracts.Exceptions;
 using SyspotecTestService.Contracts.Models;
 using SyspotecTestService.Contracts.Services;
+using SyspotecTestService.DataService.Entities;
 
 namespace SyspotecTestService.API.Controllers
 {
@@ -169,6 +170,33 @@ namespace SyspotecTestService.API.Controllers
             try
             {
                 var res = _service.Delete(ticketId);
+
+                return Ok(res);
+            }
+            catch (TicketServiceException uex)
+            {
+                var res = new
+                {
+                    Error = uex.Message
+                };
+                return BadRequest(res);
+            }
+            catch (Exception)
+            {
+                var res = new
+                {
+                    Error = INTERNAL_ERROR_MESSAGE
+                };
+                return StatusCode(500, res);
+            }
+        }
+
+        [HttpGet("status")]
+        public IActionResult GetTicketStatus()
+        {
+            try
+            {
+                var res = _service.GetTicketStatus();
 
                 return Ok(res);
             }
