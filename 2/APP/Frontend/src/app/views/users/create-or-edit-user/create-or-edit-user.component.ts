@@ -40,7 +40,6 @@ export class CreateOrEditUserComponent implements OnInit {
   setData() {
 
     if (this.userToEdit) {
-      console.log(this.userToEdit)
       this.user.id = this.userToEdit.id;
       this.user.name = this.userToEdit.nombre;
       this.user.document = this.userToEdit.cedula;;

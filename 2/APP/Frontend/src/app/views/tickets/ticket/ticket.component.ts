@@ -114,7 +114,6 @@ export class TicketComponent implements OnInit {
   }
 
   OnDeleteTicket(){
-    console.log(this.ticket.id);
     this.isWaiting = true;
     this._ticketService.delete(this.ticket.id).subscribe(
       response =>{
