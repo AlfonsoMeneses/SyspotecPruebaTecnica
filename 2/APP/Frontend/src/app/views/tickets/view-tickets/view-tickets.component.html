@@ -173,20 +173,34 @@
             >
             </app-ticket>
           </div>
+          <c-row>
+            <c-col>
+              <c-pagination aria-label="Page navigation example" >
+                <li cPageItem [disabled]="filters.pageNumber ==1">
+                  <a cPageLink aria-label="Previous"  (click)="OnPageChanges(1)"
+                    ><span aria-hidden="true">&laquo;</span></a
+                  >
+                </li>
+                <li cPageItem *ngFor="let page of pages; let i = index " [disabled]="i+1==filters.pageNumber">
+                  <a cPageLink (click)="OnPageChanges(i+1)" >{{i+1}}</a>
+                </li>
+
+                <li cPageItem [disabled]="filters.pageNumber == pageCount">
+                  <a cPageLink aria-label="Next" (click)="OnPageChanges(pageCount)"
+                    ><span aria-hidden="true">&raquo;</span></a
+                  >
+                </li>
+              </c-pagination>
+            </c-col>
+
+          </c-row>
         </c-card-body>
       </c-card>
     </c-col>
   </c-row>
 </c-container>
 
-<app-confirm-view
-  [isVisible]="isDeleting"
-  color="warning"
-  tittle="¿Seguro?"
-  [message]="deleteMessage"
-  (isConfirm)="deleteMethod($event)"
->
-</app-confirm-view>
+
 <app-error-view
   [isVisible]="hasError"
   [errorMessage]="errorMessage"

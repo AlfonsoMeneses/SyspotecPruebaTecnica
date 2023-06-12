@@ -99,7 +99,6 @@ export class CreateOrEditTicketComponent implements OnInit {
 
   //Manejo Errores
   OnError(exception: any) {
-    console.log(exception);
     let status = exception.status;
     switch (status) {
       case 400:

@@ -67,8 +67,6 @@ export class TicketService {
 
     let urlService = this._urlBase + this._get + query;
 
-    console.log(urlService);
-
     return this._http.get(urlService);
   }
 

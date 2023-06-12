@@ -5,6 +5,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
 import { ViewTicketsComponent } from './view-tickets/view-tickets.component';
 import { TicketService } from 'src/app/services/tickets/ticket.service';
 import { UserService } from 'src/app/services/users/user.service';
+import { ConfigService } from 'src/app/services/config/config.service';
 
 import {CommonsModule} from 'src/app/views/commons/commons.module';
 import { TicketComponent } from './ticket/ticket.component'
@@ -43,7 +44,8 @@ import { AssignUserToTicketComponent } from './assign-user-to-ticket/assign-user
   ],
   providers:[
     TicketService,
-    UserService
+    UserService,
+    ConfigService
   ]
 })
 export class TicketsModule { }

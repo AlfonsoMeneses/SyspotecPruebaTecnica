@@ -29,6 +29,6 @@ export const environment = {
     EXPIRED: 'Vencida',
   },
   pagination: {
-    pageSize: 10,
+    pageSize: 5,
   }
 };

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TicketFiltersDto} from 'src/app/models/tickets/ticket_filters.model'
+import { ConfigService } from 'src/app/services/config/config.service';
 import {TicketService} from 'src/app/services/tickets/ticket.service'
 import { UserService } from 'src/app/services/users/user.service';
 @Component({
@@ -36,13 +37,17 @@ export class ViewTicketsComponent implements OnInit {
   public isWaiting:boolean = false;
   public isDeleting: boolean = false;
 
+  //Paginacion
+  public pageCount: number = -1;
+  public pages:Array<number> = [];
+
   //Errores
   public hasError:boolean = false;
   public errorMessage:string = "";
   public deleteMessage:string = "";
 
 
-  constructor(private _ticketService: TicketService, private _userService: UserService) {}
+  constructor(private _ticketService: TicketService, private _userService: UserService, private _configService: ConfigService) {}
 
   ngOnInit(): void {
     this.setFilters();
@@ -106,7 +111,7 @@ export class ViewTicketsComponent implements OnInit {
 
   private setPaginationFilter(){
     this.filters.pageNumber = 1;
-    this.filters.pageSize = 10;
+    this.filters.pageSize = this._configService.getPagination().pageSize;
   }
 
   getData(){
@@ -115,6 +120,8 @@ export class ViewTicketsComponent implements OnInit {
       response =>{
         this.isWaiting = false;
         this.tickets = response.data;
+        this.pageCount = response.pagination.pageCount;
+        this.pages = Array(this.pageCount).fill(1).map((x,i)=>i);
       },
       error =>{
         this.isWaiting = false;
@@ -133,9 +140,6 @@ export class ViewTicketsComponent implements OnInit {
     this.getData();
   }
 
-  deleteMethod(event:any){
-
-  }
 
   refreshData(event:boolean){
     if(event){
@@ -151,6 +155,13 @@ export class ViewTicketsComponent implements OnInit {
     else{
       this.isWithDates = false;
     }
+  }
+
+  //Paginacion
+
+  OnPageChanges(pageNumber:number){
+    this.filters.pageNumber = pageNumber;
+    this.getData();
   }
 
   //Manejo Errores
