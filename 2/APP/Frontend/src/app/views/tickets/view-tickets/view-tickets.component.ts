@@ -9,11 +9,24 @@ import { UserService } from 'src/app/services/users/user.service';
 })
 export class ViewTicketsComponent implements OnInit {
 
-  public filters:TicketFiltersDto = new TicketFiltersDto('','',null,-1,'',-1,'','',-1,-1);
+  public filters:TicketFiltersDto = new TicketFiltersDto('','',null,null,'',-1,'','',-1,-1);
 
   //Insumos
   public ticketStatus: Array<any> = [];
   public users: Array<any> = [];
+
+  public isWithDates: boolean = false;
+
+  public withAssign = [
+     {
+      text : 'Si',
+      value: 1
+    },
+    {
+      text : 'No',
+      value: 0
+    }
+];
 
   //data
   public tickets: Array<any> = [];
@@ -39,8 +52,10 @@ export class ViewTicketsComponent implements OnInit {
   }
 
   private setFilters(){
+    this.filters = new TicketFiltersDto('','',null,null,'',-1,'','',-1,-1);
     this.setDateFilter();
     this.setPaginationFilter();
+
   }
 
   private getTicketStatus(){
@@ -109,7 +124,7 @@ export class ViewTicketsComponent implements OnInit {
   }
 
   OnSubmit(){
-
+    this.getData();
   }
 
   OnRefresh(){
@@ -125,6 +140,16 @@ export class ViewTicketsComponent implements OnInit {
   refreshData(event:boolean){
     if(event){
       this.getData();
+    }
+  }
+
+  //
+  changeTicketAssigned(event:any){
+    if (event.value) {
+      this.isWithDates = event.value == 1 ? true : false;
+    }
+    else{
+      this.isWithDates = false;
     }
   }
 

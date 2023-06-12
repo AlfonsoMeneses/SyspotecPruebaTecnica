@@ -30,16 +30,45 @@ export class TicketService {
     return this._status;
   }
 
-  getAllTicketStatus():Observable<any>{
+  getAllTicketStatus(): Observable<any> {
     let urlService = this._urlBase + this._getStatus;
     return this._http.get(urlService);
   }
 
   getTickets(filters: TicketFiltersDto): Observable<any> {
     let query =
-      '?pageSize=' + filters.pageSize + '&pageNumber=' + filters.pageNumber;
+      '?pageSize=' +
+      filters.pageSize +
+      '&pageNumber=' +
+      filters.pageNumber +
+      '&priority=' +
+      filters.priority.replaceAll(' ', '%')+
+      '&description=' +
+      filters.description.replaceAll(' ', '%')+
+      '&userName=' +
+      filters.userName.replaceAll(' ', '%');
+
+    if (filters.status >0) {
+      query += "&status="+filters.status;
+    }
+
+    if (filters.number) {
+      query += "&number="+filters.number;
+    }
+
+    if (filters.isAssigned) {
+      query += "&isAssigned="+(filters.isAssigned == 1 ? true : false);
+    }
+
+    if (filters.isAssigned && filters.isAssigned == 1) {
+      query += "&from="+filters.from +
+               "&to="+filters.to;
+    }
 
     let urlService = this._urlBase + this._get + query;
+
+    console.log(urlService);
+
     return this._http.get(urlService);
   }
 

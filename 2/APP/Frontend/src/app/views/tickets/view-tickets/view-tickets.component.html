@@ -6,77 +6,147 @@
       <c-card class="mb-4">
         <c-card-header>Filtros</c-card-header>
         <c-card-body>
-          <form cForm
-                (ngSubmit)="OnSubmit()"
-                #queryForm="ngForm">
-                    <c-row [gutter]="3" class="align-items-center">
-                      <c-col md="2">
-                        <label cLabel="col" > Desde </label>
-                      </c-col>
-                      <c-col md="3">
-                        <input
-                          cFormControl
-                          id="beginDate"
-                          type="date"
-                          name="beginDate"
-                          [(ngModel)]="filters.from"
-                          >
-                      </c-col>
-                      <c-col md="2">
-                        <label cLabel="col" >Cuenta </label>
-                      </c-col>
-                      <c-col md="3">
-                        <!--
-                        <select aria-label="Default select example"
-                                cSelect
-                                name="accounts"
-                                [(ngModel)]="filters.accountId"
-                                required>
-                          <option></option>
-                          <option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</option>
-                        </select>
-                        -->
-                      </c-col>
-                      <c-col md="2">
-                        <button cButton type="submit" variant="outline" >Consultar</button>
-                      </c-col>
-                    </c-row>
-                    <c-row [gutter]="3" class="align-items-center mt-2">
-                      <c-col md="2">
-                        <label cLabel="col">Hasta</label>
-                      </c-col>
-                      <c-col md="3">
-                        <input
-                          cFormControl
-                          id="endDate-3"
-                          type="date"
-                          name="endDate"
-                          [(ngModel)]="filters.to">
-                      </c-col>
-                      <c-col md="2">
-                        <label cLabel="col" >Tipo Movimiento</label>
-                      </c-col>
-                      <c-col md="3">
-                        <!--
-                        <select cSelect
-                                name="movementTypes"
-                                [(ngModel)]="filters.isIncome"
-                                required>
-                          <option></option>
-                          <option *ngFor="let type of movementType" [value]="type.id">{{type.name}}</option>
-                        </select>
-                      -->
-                      </c-col>
-                      <c-col md="2">
-                        <button cButton color="secondary"  variant="outline" (click)="OnRefresh()" >Refrescar</button>
-                      </c-col>
-                    </c-row>
+          <form cForm (ngSubmit)="OnSubmit()" #queryForm="ngForm">
+            <c-row [gutter]="3" class="align-items-center">
+              <c-col md="1">
+                <label cLabel="col"> Desde </label>
+              </c-col>
+              <c-col md="2">
+                <input
+                  cFormControl
+                  id="beginDate"
+                  type="date"
+                  name="beginDate"
+                  [disabled]="!isWithDates"
+                  [(ngModel)]="filters.from"
+                />
+              </c-col>
+              <c-col md="1">
+                <label cLabel="col">Ticket </label>
+              </c-col>
+              <c-col md="2">
+                <input
+                  cFormControl
+                  id="ticketNumber"
+                  type="number"
+                  name="ticketNumber"
+                  [(ngModel)]="filters.number"
+                />
+              </c-col>
+              <c-col md="1">
+                <label cLabel="col">Usuario </label>
+              </c-col>
+              <c-col md="3">
+                <select
+                  cSelect
+                  name="ticketUser"
+                  [(ngModel)]="filters.userName"
+                  required
+                >
+                  <option></option>
+                  <option *ngFor="let user of users" [value]="user.nombre">
+                    {{ user.nombre }}
+                  </option>
+                </select>
+              </c-col>
+              <c-col md="2">
+                <button cButton type="submit" variant="outline">
+                  Consultar
+                </button>
+              </c-col>
+            </c-row>
+            <c-row [gutter]="3" class="align-items-center mt-2">
+              <c-col md="1">
+                <label cLabel="col">Hasta</label>
+              </c-col>
+              <c-col md="2">
+                <input
+                  cFormControl
+                  id="endDate-3"
+                  type="date"
+                  name="endDate"
+                  [disabled]="!isWithDates"
+                  [(ngModel)]="filters.to"
+                />
+              </c-col>
+              <c-col md="1">
+                <label cLabel="col">Prioridad</label>
+              </c-col>
+              <c-col md="2">
+                <input
+                  cFormControl
+                  id="priority"
+                  type="text"
+                  name="ticketPriority"
+                  [(ngModel)]="filters.priority "
+                />
+              </c-col>
+              <c-col md="1">
+                <label cLabel="col">Estado</label>
+              </c-col>
+              <c-col md="3">
+                <select
+                  cSelect
+                  name="ticketStatus"
+                  [(ngModel)]="filters.status"
+                  required
+                >
+                  <option></option>
+                  <option *ngFor="let status of ticketStatus" [value]="status.id">
+                    {{ status.nombre }}
+                  </option>
+                </select>
+              </c-col>
+              <c-col md="2">
+                <button
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  (click)="OnRefresh()"
+                >
+                  Refrescar
+                </button>
+              </c-col>
+            </c-row>
+            <c-row [gutter]="3" class="align-items-center mt-2">
+              <c-col md="1">
+                <label cLabel="col">Ticket Asignado </label>
+              </c-col>
+              <c-col md="2">
+                <select
+                  cSelect
+                  name="ticketAssigned"
+                  [(ngModel)]="filters.isAssigned"
+                  required
+                  (change)="changeTicketAssigned($event.target)"
+                >
+                  <option></option>
+                  <option *ngFor="let assign of withAssign" [value]="assign.value">
+                    {{ assign.text }}
+                  </option>
+                </select>
+              </c-col>
+              <c-col md="1">
+                <label cLabel="col">Descripción </label>
+              </c-col>
+              <c-col md="6">
+                <input
+                  cFormControl
+                  id="description"
+                  type="text"
+                  name="ticketDescription"
+                  [(ngModel)]="filters.description"
+                />
+              </c-col>
+            </c-row>
+
           </form>
         </c-card-body>
         <c-card-footer>
-          <app-create-or-edit-ticket  [users]="users"
-                                      (createOrEditEmmite)="refreshData($event)">
-
+          <app-create-or-edit-ticket
+            [users]="users"
+            (createOrEditEmmite)="refreshData($event)"
+          >
           </app-create-or-edit-ticket>
         </c-card-footer>
       </c-card>
@@ -85,17 +155,26 @@
 
   <c-row class="justify-content-center">
     <c-col xs>
-    <c-card>
-      <c-card-body class="p-2">
-        <div *ngFor="let ticket of tickets; index as i">
-          <app-ticket [ticket]="ticket"
-                      [users]="users"
-                      [lstTicketStatus]="ticketStatus"
-                      (changeTicketEvent)="refreshData($event)">
-          </app-ticket>
-        </div>
-      </c-card-body>
-    </c-card>
+      <c-card>
+        <c-card-body class="p-2">
+
+          <c-card *ngIf="tickets.length == 0">
+            <c-card-body >
+             <label >No se encontraron resultados</label>
+            </c-card-body>
+          </c-card>
+
+          <div *ngFor="let ticket of tickets; index as i">
+            <app-ticket
+              [ticket]="ticket"
+              [users]="users"
+              [lstTicketStatus]="ticketStatus"
+              (changeTicketEvent)="refreshData($event)"
+            >
+            </app-ticket>
+          </div>
+        </c-card-body>
+      </c-card>
     </c-col>
   </c-row>
 </c-container>

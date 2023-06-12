@@ -22,6 +22,20 @@ namespace SyspotecTestService.Business.Services
 
         public IEnumerable<TicketDto> Get(TicketFilters filters)
         {
+            if (filters.UserName != null)
+            {
+                filters.UserName = filters.UserName.Replace("%", "").Trim();
+            }
+
+            if(filters.Description != null)
+            {
+                filters.Description = filters.Description.Replace("%", "").Trim();
+            }
+
+            if (filters.Priority != null)
+            {
+                filters.Priority = filters.Priority.Replace("%", "").Trim();
+            }
 
             var lstTickets = (from tickets in _db.Tickets
                               join asignado in _db.AsignadosUsuarios on tickets.Id equals asignado.IdTicket into au
@@ -30,11 +44,11 @@ namespace SyspotecTestService.Business.Services
                               from u in ua.DefaultIfEmpty()
                               join status in _db.EstadoTickets on a.IdEstado equals status.Id into sa
                               from s in sa.DefaultIfEmpty()
-                              where (filters.UserName == null || u.Nombre.Contains(filters.UserName)) &&
+                              where (filters.UserName == null || u.Nombre.Replace(" ", "").Trim().Contains(filters.UserName)) &&
                                     (filters.Status == null || s.Id == filters.Status.Value) &&
                                     (filters.Number == null || tickets.Numero == filters.Number) &&
-                                    (filters.Priority == null || tickets.Prioridad!.Equals(filters.Priority)) &&
-                                    (filters.Description == null || tickets.Descripcion!.Contains(filters.Description)) &&
+                                    (filters.Priority == null || tickets.Prioridad!.Replace(" ", "").Trim().Equals(filters.Priority)) &&
+                                    (filters.Description == null || tickets.Descripcion!.Replace(" ", "").Trim().Contains(filters.Description)) &&
                                     (filters.From == null || a.Fecha >= filters.From) &&
                                     (filters.To == null || a.Fecha <= filters.To) &&
                                     (filters.IsAssigned == null || (a == null && !filters.IsAssigned.Value) || (a != null && filters.IsAssigned.Value))
@@ -59,7 +73,9 @@ namespace SyspotecTestService.Business.Services
                                           Cedula = u.Cedula
                                       }
                                   }
-                              }).ToList();
+                              })
+                              .OrderBy(o => o.Id)
+                              .ToList();
 
 
             return lstTickets;
