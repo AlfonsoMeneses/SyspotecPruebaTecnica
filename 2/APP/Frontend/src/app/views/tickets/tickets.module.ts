@@ -13,13 +13,15 @@ import { FormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
 import { ChangeTicketStatusComponent } from './change-ticket-status/change-ticket-status.component';
 import { CreateOrEditTicketComponent } from './create-or-edit-ticket/create-or-edit-ticket.component';
+import { AssignUserToTicketComponent } from './assign-user-to-ticket/assign-user-to-ticket.component';
 
 @NgModule({
   declarations: [
     ViewTicketsComponent,
     TicketComponent,
     ChangeTicketStatusComponent,
-    CreateOrEditTicketComponent
+    CreateOrEditTicketComponent,
+    AssignUserToTicketComponent
   ],
   imports: [
     CommonModule,

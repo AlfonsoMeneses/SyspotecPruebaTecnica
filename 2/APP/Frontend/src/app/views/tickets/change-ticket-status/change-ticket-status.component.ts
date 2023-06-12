@@ -16,9 +16,7 @@ export class ChangeTicketStatusComponent {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.actualStatusId);
     this.statusId = this.actualStatusId;
-    console.log(this.statusId);
   }
 
   //Template

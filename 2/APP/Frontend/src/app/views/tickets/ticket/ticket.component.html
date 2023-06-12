@@ -1,6 +1,9 @@
 <app-waiting [isCenterTemplate]="true"  *ngIf="isWaiting"></app-waiting>
 
 <c-card class="mb-2" *ngIf="!isWaiting">
+  <c-card-header>
+    <label cLabel class="h5">Ticket #{{ ticket.numero }}</label>
+  </c-card-header>
   <c-card-body>
     <c-row class="p-1">
       <c-col sm="1">
@@ -34,7 +37,12 @@
       </c-col>
       <c-col>
         <div class="d-grid gap-2 mb-2"  *ngIf="!assignUserValidate">
-          <button cButton >Asignar</button>
+          <app-assign-user-to-ticket [ticket]="ticket"
+                                     [users]="users"
+                                     (assignEmmite)="refreshData($event)"
+                                     >
+
+          </app-assign-user-to-ticket>
         </div>
 
         <div  *ngIf="assignUserValidate">

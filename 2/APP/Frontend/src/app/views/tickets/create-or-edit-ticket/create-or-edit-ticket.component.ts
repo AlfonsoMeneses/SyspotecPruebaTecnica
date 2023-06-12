@@ -50,7 +50,7 @@ export class CreateOrEditTicketComponent implements OnInit {
   setTemplateInfo() {
     this.buttonTemplate = 'btn btn-success';
     this.buttonTitle = 'Editar';
-    this.title = 'Editar Categoria';
+    this.title = 'Editar Ticket';
   }
 
   OnShow() {

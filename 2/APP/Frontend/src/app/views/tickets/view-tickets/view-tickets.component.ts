@@ -63,7 +63,6 @@ export class ViewTicketsComponent implements OnInit {
       response =>{
         this.users = response;
         this.isWaiting = false;
-        console.log(this.users);
       },
       error =>{
         this.isWaiting = false;
@@ -101,7 +100,6 @@ export class ViewTicketsComponent implements OnInit {
       response =>{
         this.isWaiting = false;
         this.tickets = response.data;
-        console.log(this.tickets);
       },
       error =>{
         this.isWaiting = false;
@@ -115,7 +113,9 @@ export class ViewTicketsComponent implements OnInit {
   }
 
   OnRefresh(){
-
+    this.setFilters();
+    this.getTicketStatus();
+    this.getData();
   }
 
   deleteMethod(event:any){
