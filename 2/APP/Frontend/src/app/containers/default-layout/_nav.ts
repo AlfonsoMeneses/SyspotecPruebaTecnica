@@ -9,5 +9,10 @@ export const navItems: INavData[] = [
     name: 'Tickets',
     url: '/tickets',
     iconComponent: { name: 'cil-notes' }
+  },
+  {
+    name: 'Usuarios',
+    url: '/users',
+    iconComponent: { name: 'cil-notes' }
   }
 ];
