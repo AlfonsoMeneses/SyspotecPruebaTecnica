@@ -52,21 +52,6 @@ namespace SyspotecTestService.Business.Services
 
         }
 
-        public UsuarioDto Delete(int userId)
-        {
-            var user = _db.Usuarios.FirstOrDefault(user => user.Id == userId);
-
-            if (user == null)
-            {
-                throw new UserServiceException("Usuario inexistente");
-            }
-
-            _db.Usuarios.Remove(user);
-            _db.SaveChanges();
-
-            return _mapper.Map<UsuarioDto>(user);
-        }
-
         public IEnumerable<UsuarioDto> GetUsers()
         {
             List<UsuarioDto> lstUsers = new List<UsuarioDto>();
@@ -113,5 +98,28 @@ namespace SyspotecTestService.Business.Services
 
             return _mapper.Map<UsuarioDto>(userToUpdate);
         }
+
+        public UsuarioDto Delete(int userId)
+        {
+            var user = _db.Usuarios.FirstOrDefault(user => user.Id == userId);
+
+            if (user == null)
+            {
+                throw new UserServiceException("Usuario inexistente");
+            }
+
+            var assigned = _db.AsignadosUsuarios.FirstOrDefault(au => au.IdUsuario == userId);
+
+            if (assigned != null)
+            {
+                throw new UserServiceException("No se puede eliminar un usuario asignado a un ticket");
+            }
+
+            _db.Usuarios.Remove(user);
+            _db.SaveChanges();
+
+            return _mapper.Map<UsuarioDto>(user);
+        }
+
     }
 }

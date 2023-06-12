@@ -32,16 +32,18 @@ export class CreateOrEditUserComponent implements OnInit {
   constructor(private _userService: UserService){}
 
   ngOnInit(): void {
-
+    if (this.userToEdit) {
+      this.setTemplateInfo();
+    }
   }
 
   setData() {
 
     if (this.userToEdit) {
-      this.setTemplateInfo();
+      console.log(this.userToEdit)
       this.user.id = this.userToEdit.id;
-      this.user.name = this.userToEdit.name;
-      this.user.document = this.userToEdit.document;;
+      this.user.name = this.userToEdit.nombre;
+      this.user.document = this.userToEdit.cedula;;
     }
     else{
       this.user.id = -1;
@@ -86,9 +88,18 @@ export class CreateOrEditUserComponent implements OnInit {
 
   //Editar
   OnEdit() {
-    //this.isWaiting = true;
-    alert("Editar proximamente");
-
+    this.isWaiting = true;
+    this._userService.edit(this.userToEdit.id, this.user).subscribe(
+      response =>{
+        this.isWaiting = false;
+        this.isVisible = false;
+        this.createOrEditEmmite.emit(true);
+      },
+      error =>{
+        this.isWaiting = false;
+        this.OnError(error);
+      }
+    )
   }
 
   //Manejo Errores

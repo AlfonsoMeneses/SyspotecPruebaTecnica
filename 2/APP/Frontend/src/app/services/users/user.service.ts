@@ -35,4 +35,16 @@ export class UserService {
     return this._http.post(urlService, bodyReq);
    }
 
+   public edit(userId: number, userToEdit: UserDto):Observable<any>{
+
+    let urlService = this._urlBase + this._edit  + userId;
+
+    let bodyReq = {
+      nombre: userToEdit.name,
+      cedula: userToEdit.document
+    };
+
+    return this._http.put(urlService, bodyReq);
+   }
+
 }

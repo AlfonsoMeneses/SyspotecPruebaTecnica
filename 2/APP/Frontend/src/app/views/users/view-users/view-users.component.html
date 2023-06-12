@@ -19,7 +19,10 @@
               <td>{{ user.nombre }}</td>
               <td>{{ user.cedula}}</td>
               <td>
-                <button cButton color="success"  >Editar</button>
+                <app-create-or-edit-user  [userToEdit]="user"
+                                          (createOrEditEmmite)="updateData($event)">
+
+                </app-create-or-edit-user>
               </td>
             </tr>
           </tbody>
