@@ -10,7 +10,7 @@
               <th scope="col">#</th>
               <th scope="col">Nombre</th>
               <th scope="col">Cedula</th>
-              <th scope="col"></th>
+              <th scope="col" colspan="2" ></th>
             </tr>
           </thead>
           <tbody>
@@ -23,6 +23,9 @@
                                           (createOrEditEmmite)="updateData($event)">
 
                 </app-create-or-edit-user>
+              </td>
+              <td>
+                <button cButton color="danger" class="text-white" (click)="confirmDeleteUser(user)" >Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -47,3 +50,11 @@
                 (closeEmit)="closeError($event)">
 
 </app-error-view>
+
+<app-confirm-view [isVisible]="isDeleting"
+                  color="warning"
+                  tittle="¿Seguro?"
+                  [message]="deleteMessage"
+                  (isConfirm)="deleteMethod($event)">
+
+</app-confirm-view>

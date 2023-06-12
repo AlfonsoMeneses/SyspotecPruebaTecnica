@@ -47,4 +47,13 @@ export class UserService {
     return this._http.put(urlService, bodyReq);
    }
 
+   public delete(userId: number):Observable<any>{
+
+    let urlService = this._urlBase + this._edit  + userId;
+
+    return this._http.delete(urlService);
+   }
+
+
+
 }
