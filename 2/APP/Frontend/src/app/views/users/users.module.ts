@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 
+import {ViewUsersComponent} from './view-users/view-users.component'
+
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ViewUsersComponent
+  ],
   imports: [
     CommonModule,
     UsersRoutingModule

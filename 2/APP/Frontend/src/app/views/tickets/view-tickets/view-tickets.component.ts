@@ -131,6 +131,7 @@ export class ViewTicketsComponent implements OnInit {
   }
 
   OnSubmit(){
+    this.filters.pageNumber = 1;
     this.getData();
   }
 
