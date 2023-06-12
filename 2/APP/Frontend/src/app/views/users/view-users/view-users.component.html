@@ -1,1 +1,53 @@
-<p>view-users works!</p>
+<app-waiting *ngIf="isWaiting"></app-waiting>
+<c-row *ngIf="!isWaiting" class="justify-content-center">
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>Usuarios</c-card-header>
+      <c-card-body>
+        <table cTable [striped]="true" hover striped [responsive]="true">
+          <thead cTableColor="dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cedula</th>
+              <th scope="col" colspan="3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; index as i" >
+              <th scope="row">{{ i+1 }}</th>
+              <td>{{ user.nombre }}</td>
+              <td>{{ user.cedula}}</td>
+              <td>
+
+              </td>
+              <td>
+                <button cButton color="success"  >Editar</button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+        <c-row>
+          <c-col md="1">
+            <button cButton color="dark" variant="outline" (click)="getData()"  >Actualizar</button>
+          </c-col>
+          <c-col md="1">
+            <button cButton  >Registrar</button>
+          </c-col>
+        </c-row>
+      </c-card-body>
+      <c-card-footer>
+
+
+
+      </c-card-footer>
+    </c-card>
+  </c-col>
+</c-row>
+
+<app-error-view [isVisible]="hasError"
+                [errorMessage]="errorMessage"
+                (closeEmit)="closeError($event)">
+
+</app-error-view>
