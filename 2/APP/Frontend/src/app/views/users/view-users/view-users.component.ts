@@ -37,7 +37,11 @@ export class ViewUsersComponent implements OnInit {
     );
   }
 
-
+  updateData(event:boolean){
+    if(event){
+      this.getData();
+    }
+  }
   //Manejo Errores
   OnError(exception: any) {
     let status = exception.status;

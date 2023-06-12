@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
+import {UserDto} from 'src/app/models/users/user.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +22,17 @@ export class UserService {
    public getUsers():Observable<any>{
     let urlService = this._urlBase + this._get;
     return this._http.get(urlService);
+   }
+
+   public create(user:UserDto):Observable<any>{
+    let urlService = this._urlBase + this._create;
+
+    let bodyReq = {
+      nombre: user.name,
+      cedula: user.document
+    };
+
+    return this._http.post(urlService, bodyReq);
    }
 
 }

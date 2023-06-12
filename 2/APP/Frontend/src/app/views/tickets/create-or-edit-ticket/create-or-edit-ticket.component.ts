@@ -112,6 +112,7 @@ export class CreateOrEditTicketComponent implements OnInit {
     this.hasError = true;
   }
 
+  //Cerrar el modal
   close() {
     this.isVisible = false;
   }

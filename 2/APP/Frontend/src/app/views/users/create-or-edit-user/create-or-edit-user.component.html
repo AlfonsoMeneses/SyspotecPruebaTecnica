@@ -1,0 +1,69 @@
+<button (click)="OnShow()"  [ngClass]="buttonTemplate" >
+  <label >{{ buttonTitle }}</label>
+</button>
+
+<c-modal
+  #verticallyCenteredModal
+  alignment="center"
+  id="verticallyCenteredModal"
+  [visible]="isVisible"
+  backdrop="static"
+>
+  <c-modal-header class="bg-info text-white">
+    <h5 cModalTitle>{{ title }}</h5>
+    <button (click)="close()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body >
+
+    <c-container >
+      <form cForm validated="true"
+                  (ngSubmit)="OnSubmit()"
+                  #ticketForm="ngForm">
+        <app-waiting [isCenterTemplate]="true" *ngIf="isWaiting"></app-waiting>
+        <div *ngIf="!isWaiting">
+          <c-row class="mb-3">
+            <label [sm]="4" cCol cLabel="col" >
+              Nombre
+            </label>
+            <c-col [sm]="8">
+              <input  cFormControl
+                      type="text"
+                      [(ngModel)]="user.name"
+                      name="ticketDescription"
+                      required  />
+            </c-col>
+          </c-row>
+          <c-row class="mb-3">
+            <label [sm]="4" cCol cLabel="col" >
+              Cedula
+            </label>
+            <c-col [sm]="8">
+              <input  cFormControl
+                      type="text"
+                      [(ngModel)]="user.document"
+                      name="ticketPrioridad"
+                      required  />
+            </c-col>
+          </c-row>
+
+          <app-error-alert *ngIf="hasError"
+                           [errorMessage]="errorMessage" >
+
+          </app-error-alert>
+        </div>
+      </form>
+  </c-container>
+  </c-modal-body>
+  <c-modal-footer>
+    <button
+      (click)="close()"
+      cButton
+      color="danger"
+      variant="outline"
+    >
+      Cancelar
+    </button>
+    <button cButton color="info" class="text-white" [disabled]="ticketForm.invalid" type="submit" (click)="OnSubmit()">Guardar</button>
+  </c-modal-footer>
+</c-modal>
+

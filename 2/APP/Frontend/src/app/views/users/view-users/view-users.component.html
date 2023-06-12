@@ -10,7 +10,7 @@
               <th scope="col">#</th>
               <th scope="col">Nombre</th>
               <th scope="col">Cedula</th>
-              <th scope="col" colspan="3"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -19,12 +19,8 @@
               <td>{{ user.nombre }}</td>
               <td>{{ user.cedula}}</td>
               <td>
-
-              </td>
-              <td>
                 <button cButton color="success"  >Editar</button>
               </td>
-
             </tr>
           </tbody>
         </table>
@@ -32,16 +28,13 @@
           <c-col md="1">
             <button cButton color="dark" variant="outline" (click)="getData()"  >Actualizar</button>
           </c-col>
-          <c-col md="1">
-            <button cButton  >Registrar</button>
+          <c-col>
+            <app-create-or-edit-user (createOrEditEmmite)="updateData($event)">
+
+            </app-create-or-edit-user>
           </c-col>
         </c-row>
       </c-card-body>
-      <c-card-footer>
-
-
-
-      </c-card-footer>
     </c-card>
   </c-col>
 </c-row>

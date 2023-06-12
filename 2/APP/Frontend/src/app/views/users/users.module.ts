@@ -10,11 +10,13 @@ import { AlertModule, AvatarModule, ButtonModule, CardModule, FormModule, GridMo
 import { FormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
 import { UserService } from 'src/app/services/users/user.service';
+import { CreateOrEditUserComponent } from './create-or-edit-user/create-or-edit-user.component';
 
 
 @NgModule({
   declarations: [
-    ViewUsersComponent
+    ViewUsersComponent,
+    CreateOrEditUserComponent
   ],
   imports: [
     CommonModule,
