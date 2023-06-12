@@ -1,23 +1,18 @@
 <!--sidebar-->
 <c-sidebar
   #sidebar="cSidebar"
-  class="d-print-none sidebar sidebar-fixed"
+  class="d-print-none sidebar sidebar-fixed bg-dark"
   id="sidebar"
   visible
 >
-  <c-sidebar-brand
+  <c-sidebar-brand class="bg-white"
     [brandFull]="{
-      src: 'assets/img/brand/coreui-angular.svg',
+      src: 'assets/images/logo.png',
       width: 200,
-      height: 46,
-      alt: 'CoreUI Logo'
+      height: 50,
+      alt: 'Prueba Tecnica'
     }"
-    [brandNarrow]="{
-      src: 'assets/img/brand/coreui-signet-white.svg',
-      width: 46,
-      height: 46,
-      alt: 'CoreUI Logo'
-    }"
+
     routerLink="./"
   />
 
@@ -44,6 +39,4 @@
       <router-outlet/>
     </c-container>
   </div>
-  <!--app footer-->
-  <app-default-footer/>
 </div>

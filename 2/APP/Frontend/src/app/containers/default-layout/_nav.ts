@@ -13,6 +13,6 @@ export const navItems: INavData[] = [
   {
     name: 'Usuarios',
     url: '/users',
-    iconComponent: { name: 'cil-notes' }
+    iconComponent: { name: 'cil-user' }
   }
 ];

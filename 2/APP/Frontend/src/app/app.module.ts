@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Import containers
-import { DefaultFooterComponent, DefaultHeaderComponent, DefaultLayoutComponent } from './containers';
+import { DefaultHeaderComponent, DefaultLayoutComponent } from './containers';
 
 import {
   AvatarModule,
@@ -41,7 +41,6 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 const APP_CONTAINERS = [
-  DefaultFooterComponent,
   DefaultHeaderComponent,
   DefaultLayoutComponent
 ];
