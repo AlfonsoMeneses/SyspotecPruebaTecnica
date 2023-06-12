@@ -32,11 +32,11 @@ namespace SyspotecTestService.Business.Services
                 throw new UserServiceException("Nombre o documento requerido");
             }
 
-            var userValidate = _db.Usuarios.FirstOrDefault(user => user.Cedula.Equals(document));
+            var userValidate = _db.Usuarios.FirstOrDefault(user => user.Cedula.Equals(document) || user.Nombre.Trim().Equals(name));
 
             if (userValidate != null)
             {
-                throw new UserServiceException("Ya existe un usuario con ese documento");
+                throw new UserServiceException("Ya existe un usuario con ese nombre o documento");
             }
 
             var newUser = new Usuario
