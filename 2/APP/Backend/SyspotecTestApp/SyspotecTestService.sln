@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyspotecTestService.API", "SyspotecTestService.API.csproj", "{D88033E6-6294-43AE-A67D-FF047139538E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase", "DataBase", "{ABF3DFBE-A8D5-44BF-8147-5284EC48840C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{24EA507E-276B-4DC6-9CD2-47407D76A61A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{2B9FB355-B26D-4903-917E-2578879BAA6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{54A1AFE2-EB25-4C3F-A9C1-A10D994C4AD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyspotecTestService.Business", "..\SyspotecTestService.Business\SyspotecTestService.Business.csproj", "{C52989D5-F079-4B36-AD6F-77F510E1EC02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyspotecTestService.Contracts", "..\SyspotecTestService.Contracts\SyspotecTestService.Contracts.csproj", "{9CA5BFB1-F750-4958-9464-562E97F1BE3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyspotecTestService.DataService", "..\SyspotecTestService.DataService\SyspotecTestService.DataService.csproj", "{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D88033E6-6294-43AE-A67D-FF047139538E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88033E6-6294-43AE-A67D-FF047139538E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88033E6-6294-43AE-A67D-FF047139538E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88033E6-6294-43AE-A67D-FF047139538E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52989D5-F079-4B36-AD6F-77F510E1EC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52989D5-F079-4B36-AD6F-77F510E1EC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52989D5-F079-4B36-AD6F-77F510E1EC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52989D5-F079-4B36-AD6F-77F510E1EC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA5BFB1-F750-4958-9464-562E97F1BE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA5BFB1-F750-4958-9464-562E97F1BE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA5BFB1-F750-4958-9464-562E97F1BE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA5BFB1-F750-4958-9464-562E97F1BE3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D88033E6-6294-43AE-A67D-FF047139538E} = {24EA507E-276B-4DC6-9CD2-47407D76A61A}
+		{C52989D5-F079-4B36-AD6F-77F510E1EC02} = {2B9FB355-B26D-4903-917E-2578879BAA6C}
+		{9CA5BFB1-F750-4958-9464-562E97F1BE3D} = {54A1AFE2-EB25-4C3F-A9C1-A10D994C4AD3}
+		{3213BA64-54EA-4334-9AD9-B80F2C3AE3ED} = {ABF3DFBE-A8D5-44BF-8147-5284EC48840C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {166842B0-B8CA-4565-A68C-7EFCC1AA11B0}
+	EndGlobalSection
+EndGlobal

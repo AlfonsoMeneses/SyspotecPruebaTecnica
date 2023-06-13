@@ -1,0 +1,88 @@
+<div class="d-grid gap-2 mb-2">
+  <button (click)="OnShow()" cButton  >
+    <label >Asignar</label>
+  </button>
+</div>
+
+
+<c-modal
+  #verticallyCenteredModal
+  alignment="center"
+  id="verticallyCenteredModal"
+  [visible]="isVisible"
+  backdrop="static"
+>
+  <c-modal-header class="bg-info text-white">
+    <h5 cModalTitle>{{ title }}</h5>
+    <button (click)="close()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body >
+
+    <c-container >
+      <form cForm validated="true"
+                  (ngSubmit)="OnSubmit()"
+                  #ticketForm="ngForm">
+        <div *ngIf="isWaiting">
+          <c-progress>
+            <c-progress-bar
+              [animated]="true"
+              color="info"
+              [value]="100"
+              variant="striped"
+            >
+              Un momento
+            </c-progress-bar>
+          </c-progress>
+        </div>
+        <div *ngIf="!isWaiting">
+          <c-row class="mb-3">
+            <label [sm]="4" cCol cLabel="col" >
+              Descripción
+            </label>
+            <c-col [sm]="8">
+              <input  cFormControl
+                      type="text"
+                      [(ngModel)]="ticket.descripcion"
+                      name="ticketDescription"
+                      readonly
+                        />
+            </c-col>
+          </c-row>
+
+          <c-row class="mb-3">
+            <label [sm]="4" cCol cLabel="col" >Usuario </label>
+            <c-col [sm]="8" >
+              <select
+                cSelect
+                name="ticketUser"
+                [(ngModel)]="userId"
+                required
+              >
+                <option ></option>
+                <option *ngFor="let user of users" [value]="user.id">
+                  {{ user.nombre }}
+                </option>
+              </select>
+            </c-col>
+          </c-row>
+
+          <app-error-alert *ngIf="hasError"
+                           [errorMessage]="errorMessage" >
+
+          </app-error-alert>
+        </div>
+      </form>
+  </c-container>
+  </c-modal-body>
+  <c-modal-footer>
+    <button
+      (click)="close()"
+      cButton
+      color="danger"
+      variant="outline"
+    >
+      Cancelar
+    </button>
+    <button cButton color="info" class="text-white" [disabled]="ticketForm.invalid" type="submit" (click)="OnSubmit()">Guardar</button>
+  </c-modal-footer>
+</c-modal>

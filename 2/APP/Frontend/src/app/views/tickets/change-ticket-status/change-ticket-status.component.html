@@ -1,0 +1,62 @@
+<div class="d-grid gap-2 mb-2">
+  <button cButton color="dark" (click)="isVisible = true">
+    Modificar Estado
+  </button>
+</div>
+
+<c-modal
+  #verticallyCenteredModal
+  alignment="center"
+  id="verticallyCenteredModal"
+  [visible]="isVisible"
+  backdrop="static"
+>
+  <c-modal-header class="bg-info text-white">
+    <h5 cModalTitle>{{ title }}</h5>
+    <button (click)="close()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <c-container>
+      <form cForm validated="true" (ngSubmit)="OnSubmit()" #methodForm="ngForm">
+        <c-row class="mb-3">
+          <label [sm]="4" cCol cLabel="col"> Fecha Inicio </label>
+          <c-col [sm]="8">
+            <select
+              aria-label="Default select example"
+              cSelect
+              name="status"
+              [(ngModel)]="statusId"
+              required
+            >
+              <option></option>
+              <option
+                *ngFor="let ticketStatus of ticketStatus"
+                [value]="ticketStatus.id"
+              >
+                {{ ticketStatus.nombre }}
+              </option>
+            </select>
+          </c-col>
+        </c-row>
+
+        <app-error-alert *ngIf="hasError" [errorMessage]="errorMessage">
+        </app-error-alert>
+      </form>
+    </c-container>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="close()" cButton color="danger" variant="outline">
+      Cancelar
+    </button>
+    <button
+      cButton
+      color="info"
+      class="text-white"
+      [disabled]="methodForm.invalid"
+      type="submit"
+      (click)="OnSubmit()"
+    >
+      Guardar
+    </button>
+  </c-modal-footer>
+</c-modal>
