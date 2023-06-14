@@ -3,13 +3,13 @@ using SyspotecTestService.DataService.Entities;
 
 namespace SyspotecTestService.DataService;
 
-public partial class SyspotecTestMySQLContext : DbContext
+public partial class SyspotecTestDBContext : DbContext
 {
-    public SyspotecTestMySQLContext()
+    public SyspotecTestDBContext()
     {
     }
 
-    public SyspotecTestMySQLContext(DbContextOptions<SyspotecTestMySQLContext> options)
+    public SyspotecTestDBContext(DbContextOptions<SyspotecTestDBContext> options)
         : base(options)
     {
     }
@@ -22,15 +22,12 @@ public partial class SyspotecTestMySQLContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    /*
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=amenesesdb.ch8babiaex5t.us-east-1.rds.amazonaws.com;database=syspotec_test;uid=admin;password=auto_4dm1n", ServerVersion.Parse("8.0.28-mysql"));
-    */
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8_general_ci")
-            .HasCharSet("utf8");
+            .UseCollation("utf8_general_ci");
+           // .HasCharSet("utf8");
 
         modelBuilder.Entity<AsignadosUsuario>(entity =>
         {
@@ -60,7 +57,6 @@ public partial class SyspotecTestMySQLContext : DbContext
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.AsignadosUsuarios)
                 .HasForeignKey(d => d.IdUsuario)
-                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_AsignadosUsuarios_Usuario_Id");
         });
 

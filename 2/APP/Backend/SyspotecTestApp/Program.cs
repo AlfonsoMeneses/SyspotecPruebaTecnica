@@ -15,12 +15,9 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 
 //Agregando Conexi�n Con la DB
 
-var dbConnection = builder.Configuration.GetConnectionString("MySQLDB");
+var dbConnection = builder.Configuration.GetConnectionString("MSSQL_Dev");
 
-builder.Services.AddDbContext<SyspotecTestMySQLContext>(ops => ops.UseMySql(
-        dbConnection,
-        ServerVersion.AutoDetect(dbConnection)
-    ));
+builder.Services.AddDbContext<SyspotecTestDBContext>(ops => ops.UseSqlServer(dbConnection));
 
 
 //AutoMappers

@@ -2,6 +2,7 @@
 
 namespace SyspotecTestService.Contracts.Services
 {
+    
     public interface IUserService
     {
         IEnumerable<UsuarioDto> GetUsers();
