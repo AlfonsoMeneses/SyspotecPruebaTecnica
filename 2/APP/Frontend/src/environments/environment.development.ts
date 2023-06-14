@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   services: {
-    base: 'http://ec2-54-165-78-243.compute-1.amazonaws.com/ticket_service/api/',
+    base: 'https://localhost:7208/api/',
     user: {
       get: 'user',
       create: 'user',
