@@ -9,10 +9,10 @@ namespace SyspotecTestService.Business.Services
 {
     public class UserService : IUserService
     {
-        private SyspotecTestMySQLContext _db;
+        private SyspotecTestDBContext _db;
         private readonly IMapper _mapper;
 
-        public UserService(SyspotecTestMySQLContext db, IMapper mapper)
+        public UserService(SyspotecTestDBContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;

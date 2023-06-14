@@ -11,10 +11,10 @@ namespace SyspotecTestService.Business.Services
 {
     public class TicketService : ITicketService
     {
-        private SyspotecTestMySQLContext _db;
+        private SyspotecTestDBContext _db;
         private readonly IMapper _mapper;
 
-        public TicketService(SyspotecTestMySQLContext db, IMapper mapper)
+        public TicketService(SyspotecTestDBContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
